@@ -1,0 +1,150 @@
+options:
+	logo: &7[&aEntreprise&7]
+command /ent [<text>] [<text>] [<player>]:
+	trigger:
+		if arg 1 is set:
+			if arg 1 is "help":
+				message "======={@logo}=======" to the player
+				message "/ent help - Permet d'avoir ce menu" to the player
+				message "/ent - Permet de voir le menu de son entreprise" to the player
+				message "/ent create <nom de l'entreprise> - Permet de créé votre entreprise (nécessite 120K€)" to the player
+				message "/ent info <nom de l'entreprise> - Permet de voir les membres d'une entreprise"
+			if arg 1 is "create":
+				if arg 2 is set:
+					if player's balance > 119999:
+						loop {entlist::*}:
+							if loop-value is arg 2:
+								message "{@logo} &cErreur une entreprise porte déja ce nom"
+								stop trigger
+						set {ent.%player%} to arg 2
+						set {entpatron.%player%} to 1
+						remove 119999 from balance of player
+						add arg 2 to {entlist::*}
+						add player to {entmembre.%arg 2%::*}
+						message "{@logo} &aVous avez créé votre entreprise au nom de &b%arg 2% &aet vous avez été debité de &b119999"
+					else:
+						message "{@logo} &cVous n'avez pas assez d'argent"
+				else:
+					message "{@logo}&cVous devez indiquer un nom d'entreprise"
+			if arg 1 is "info":
+				if arg 2 is not set:
+					set {tempo} to {ent.%player%}
+					if {tempo} is 0:
+						message "{@logo} &a Vous n'avez pas d'entreprise"
+						stop trigger
+					message "{@logo} &aent %{tempo}% Info (&cHRP&a) : "
+					loop {entmembre.%{tempo}%::*}:
+						if loop-index is "1":
+							message "%loop-index% -> %loop-value% (Chef)"
+						else:
+							message "%loop-index% -> %loop-value%"	
+				else:
+					message "{@logo} &aent %arg 2% Info (&cHRP&a) : "
+					loop {entmembre.%arg 2%::*}:
+						if loop-index is "1":
+							message "%loop-index% -> %loop-value% (Chef)"
+						else:
+							message "%loop-index% -> %loop-value%"	
+			if arg 1 is "supr":
+				if {entpatron.%player%} is 1:
+					if arg 2 is not set:
+						message "{@logo} vous devez indiquer le nom de votre entreprise"
+					else:
+						if {ent.%player%} is arg 2:
+							loop {entlist::*}:
+								if loop-value is arg 2:
+									remove loop-index from {entlist::*}
+									remove loop-value from {entlist::*}
+									message "{@logo} Votre entreprise est desormait supprimer"
+							loop {entmembre.%arg 2%::*}:
+								remove loop-index from {entmembre.%arg 2%::*}
+								remove loop-value from {entmembre.%arg 2%::*}
+								message "{@logo} Vous venez d'être virez de votre entreprise due a la supression de celle ci" to loop-value
+								set {ent.%loop-value%} to 0
+								set {entpatron.%loop-value%} to 0
+						else:
+							message "{@logo}&aVous ne pouvez pas suprimer une entreprise qui vous appartient pas"
+				else: 
+					message "{@logo}&aVous n'êtes pas propriétaire d'une entreprise"
+			if arg 1 is "kick":
+				if {entpatron.%player%} is 0:
+					message "{@logo}&aVous n'êtes pas le propriétaire d'une entreprise"
+				else:
+					if arg 2 is not set:
+						message "{@logo}&aVous devez indiqué le nom de l'entreprise "
+					else:
+						if {ent.%player%} is arg 2:
+							if arg 3 is not set:
+								message "{@logo}&aVous devez mettre le nom d'un joueur"
+							else:
+								if player is arg 3:
+									message "{@logo}&aVous ne pouvez pas vous kick de l'ent"
+								else:
+									message "{@logo}&aLe joueur a été kick de l'entreprise"
+									message "{@logo}&aVous avez été viré de l'entreprise %{ent.%player%}%" to arg 3
+									loop {entmembre.%arg 2%::*}:
+										if loop-value is arg 3:
+											remove loop-index from {entmembre.%arg 2%::*}
+											remove loop-value from {entmembre.%arg 2%::*}
+											set {ent.%arg 3%} to 0
+						else:
+							message "{@logo}Vous ne pouvez pas virez un joueur d'une autre entreprise"
+			if arg 1 is "leave":
+				if {entpatron.%player%} is 0:
+					set {entlocal} to {ent.%player%}
+					if {ent.%player%} is not 0:
+						message "{@logo}&aVous avez quitter votre entreprise"
+						loop {entmembre.%{entlocal}%::*}:
+							if loop-index is "1":
+								message "{@logo}&aLe joueur %player% a quitter votre entreprise" to loop-value
+							if loop-value is player:
+								remove loop-index from {entmembre.%{entlocal}%::*}
+								remove loop-value from {entmembre.%{entlocal}%::*}
+								set {ent.%player%} to 0
+			if arg 1 is "addmember":
+				if {entpatron.%player%} is 1:
+					if {gang.%arg 3%} is 0:
+						if {gang.%player%} is arg 2:
+							message "&aLe joueur a bien été recruté"
+							message "&aVous venez d'être recruter dans l'entreprise %{ent.%player%}%" to arg 3
+							add arg 3 to {entmembre.%arg 2%::*}
+							set {ent.%arg 3%} to {ent.%player%}
+						else:
+							message "&aLe nom de l'entreprise que vous avez mis ne correspond pas au votre"
+					else:
+						message "&aLe joueur est déja dans une entreprise"
+				else:
+					message "&aVous n'êtes pas le propriétaire d'une entreprise"
+				stop trigger
+
+			if player has permission "admin.use":
+				if arg 1 is "forcesupr":
+					loop {entlist::*}:
+						if loop-value is arg 2:
+							remove loop-index from {entlist::*}
+							remove loop-value from {entlist::*}
+							message "{@logo}Entreprise bien suprimier"
+					loop {entmembre.%arg 2%::*}:
+						remove loop-index from {entmembre.%arg 2%::*}
+						remove loop-value from {entmembre.%arg 2%::*}
+						message "{@logo}Vous venez d'être virez de votre entreprise due a la supression de celle ci" to loop-value
+
+		else:
+			if {ent.%player%} is 0:
+				message "{@logo} &cVous n'avez pas d'entreprise, utiliser /ent create <nom de l'entrprise> pour pouvoir en crée une "
+			else:
+				create a gui with virtual chest inventory with 3 rows named "&3Carte d'identité":		
+					make gui 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 and 26 with black stained glass pane named "&f"
+					make gui 11 with dirt named "ete":
+						message "OK" to player
+				open last created gui to player
+
+
+
+
+command /setpatron:
+	trigger: 
+		message "e %{entpatron.%player%}%"
+		set {entpatron.%player%} to 0
+		message "e %{entpatron.%player%}%"
+		

@@ -1,0 +1,17 @@
+command /attribution <text> <text> <text>:
+    trigger:
+        set lore of player's tool to "&b%arg 1%"
+        add "&a%arg 2%" to lore of player's tool
+        add "&e%arg 3%" to lore of player's tool
+        
+command /desattribuer:
+    trigger:
+        set lore of player's tool to "&cNon répertorié"
+
+command /registration <text> [<text>]:
+    trigger:
+        if arg 1 is "add":
+            add "&a%arg 2%" to lore of player's tool
+        if arg 1 is "clear":
+            delete lore of player's tool
+        

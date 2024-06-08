@@ -1,0 +1,154 @@
+command /gang [<text>] [<text>] [<player>]:
+	trigger:
+		if arg 1 is not set:
+			if {gang.%player%} is 0:
+				message "&aVous n'avez pas de gang"
+			else:
+				message "&aVotre gang est : &c%{gang.%player%}%"
+			message " "
+			message "&aUsage posible : /gang [info] <gang> , [addmember] <gang> <Joueur>, [kick] <gang> <Joueur>, [leave]"
+			if player has permission "admin.use":
+				message " "
+				message "&cCommande ADMIN : /gang [create] <nom> <Propriétaire du gang>, [supr] <nom du gang>"
+			stop trigger
+
+		if arg 1 is "create":
+			if player has permission "admin.use":
+				if arg 2 is not set:
+					message "&aVous devez indiqué le nom du gang "
+				else:
+					if arg 3 is not set:
+						message "&aVous devez mettre le nom du propriétaire du gang"
+					else:
+						add arg 3 to {gangmembre.%arg 2%::*}
+						add arg 2 to {ganglist::*}
+						set {gang.%arg 3%} to arg 2
+						set {gangpatron::%uuid of arg 3%} to "Oui"
+						message "&aLe gang %arg 2% a bien été créé !!"	
+						message "&aVous êtes le propriétaire du gang %arg 2%" to arg 3
+				stop trigger
+
+		if arg 1 is "info":
+			if arg 2 is not set:
+				set {tempo} to {gang.%player%}
+				if {tempo} is 0:
+					message "&a Vous n'avez pas de gang"
+					stop trigger
+					message "&agang : %{tempo}% Info (&cHRP&a) : "
+					loop {gangmembre.%{tempo}%::*}:
+						if loop-index is "1":
+							message "%loop-index% -> %loop-value% (Chef)"
+						else:
+							message "%loop-index% -> %loop-value%"	
+			else:
+				message "&aGang %arg 2% Info (&cHRP&a) : "
+				loop {gangmembre.%arg 2%::*}:
+					if loop-index is "1":
+						message "%loop-index% -> %loop-value% (Chef)"
+					else:
+						message "%loop-index% -> %loop-value%"
+			stop trigger
+		
+		if arg 1 is "addmember":
+			if {gangpatron::%uuid of player%} is "Oui":
+				if {gang.%arg 3%} is 0:
+					if {gang.%player%} is arg 2:
+						message "&aLe joueur a bien été recruté"
+						message "&aVous venez d'être recruter dans le gang %{gang.%player%}%" to arg 3
+						add arg 3 to {gangmembre.%arg 2%::*}
+						set {gang.%arg 3%} to {gang.%player%}
+					else:
+						message "&aLe nom gang que vous avez mis ne correspond pas au votre"
+				else:
+					message "&aLe joueur est déja dans un gang"
+			else:
+				message "&aVous n'êtes pas le dirigant du gang"
+			stop trigger	
+		
+		if arg 1 is "supr":
+			if player has permission "admin.use":
+				if {gangsupr.%player%} is 1:
+					message "&cTu as bien suprimé le gang %arg 2%" to player
+					message "&cLe gang a été suprimé par un admin" to {gangmembre.%arg 2%::1}
+					set {playerlocal} to {gangmembre.%arg 2%::1}
+					set {gangsupr.%player%} to 0
+					set {gangpatron::%uuid of {playerlocal}%} to "Non"
+					set {gang.%{playerlocal}%} to 0
+					loop {gangmembre.%arg 2%::*}:
+						message "&cVous avez été viré de votre gang a cause d'une supprétion de celui-ci" to loop-value
+						set {gang.%loop-value%} to 0
+						remove loop-value from {gangmembre.%arg 2%::*}
+					set {playerlocal} to 0
+					loop {ganglist::*}:
+						if loop-value is arg 2:
+							remove loop-index from {ganglist::*}
+							remove loop-value from {ganglist::*}
+					stop trigger
+				if {gangsupr.%player%} is 0:
+					message "&cMerci de remettre la commande pour confirmer le supprétion du gang"
+					message "&cAttention cet action est irréversible"
+					set {gangsupr.%player%} to 1
+				stop trigger
+		
+		if arg 1 is "kick":
+			if {gangpatron::%uuid of player%} is "Non":
+				message "&aVous ne pouvez pas quitter votre popre gang"
+			else:
+				if {gang.%arg 3%} is arg 2:
+					if arg 2 is not set:
+						message "&aVous devez indiqué le nom du gang "
+					else:
+						if "%arg 3%" is not set:
+							message "&aVous devez mettre le nom d'un joueur"
+						else:
+							message "&aLe joueur a été kick du gang"
+							message "&aVous avez été viré du gang" to arg 3
+							loop {gangmembre.%arg 2%::*}:
+								if loop-value is arg 3:
+									remove loop-index from {gangmembre.%arg 2%::*}
+									remove loop-value from {gangmembre.%arg 2%::*}
+									set {gang.%arg 3%} to 0
+			stop trigger
+		
+		if arg 1 is "leave":
+			if {gangpatron::%uuid of player%} is "Non":
+				set {ganglocal} to {gang.%player%}
+				if {gang.%player%} is not 0:
+					message "&aVous avez quitter votre gang"
+					loop {gangmembre.%{ganglocal}%::*}:
+						if loop-index is "1":
+							message "&aLe joueur %player% a quitter votre gang" to loop-value
+						if loop-value is player:
+							remove loop-index from {gangmembre.%{ganglocal}%::*}
+							remove loop-value from {gangmembre.%{ganglocal}%::*}
+							set {gang.%player%} to 0
+				else:
+					message "&aVous êtes dans aucun gang"
+			else:
+				message "&aVous ne pouvez pas quitter votre popre gang"
+			stop trigger
+		else: 
+			if {gang.%player%} is 0:
+				message "&aVous n'avez pas de gang"
+			else:
+				message "&aVotre gang est : &c%{gang.%player%}%"
+			message " "
+			message "&aUsage posible : /gang [info] <gang> , [addmember] <gang> <Joueur>, [kick] <gang> <Joueur>, [leave]"
+			if player has permission "admin.use":
+				message " "
+				message "&cCommande ADMIN : /gang [create] <nom> <Propriétaire du gang>, [supr] <nom du gang>"
+			stop trigger
+
+
+command /gangs [<number>]:
+	permission: modo.voir
+	permission message: &4Tu n'a pas la permissions !
+	trigger:
+		message "&aListe des gang :"
+		loop {ganglist::*}:
+			message "%loop-index% -> %loop-value%"
+
+
+
+
+		

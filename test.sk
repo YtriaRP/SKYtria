@@ -1,0 +1,6 @@
+aliases:
+    rifle = dynamxmod:wrench
+
+command /teeeeeeeee:
+   trigger:
+      give testclef to player

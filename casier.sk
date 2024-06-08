@@ -1,0 +1,40 @@
+options:
+	logo: &7[&aCasier-Judiciaire&7]
+
+
+command /casier [<text>] [<offline player>] [<text>]:
+	permission: cj.perm
+	permission message: {@logo} &9Tu ne fait pas parti de la Police
+	trigger:
+		if arg 1 is not set:
+			send "{@logo}&a /casier add <player> <raison>, show <player>, remove <player> <numero>"
+
+
+
+		if arg 1 is "add":
+			if arg 2 is set:
+				if arg 3 is set:
+					add 1 to {cj.numero.%arg 2%}
+					set {cj.infraction.%arg 2%::%{cj.numero.%arg 2%}%} to arg-3
+					send "{@logo} &9Infraction ajouté au casier de &c%arg 2% &9raison &c%arg 3%"
+					stop
+				send "{@logo} &cPour ajouter un infraction faites /cj add player Infraction"
+				stop
+			send "{@logo} &cPour ajouter un infraction faites /cj add player Infraction"
+
+
+
+		if arg 1 is "show":
+			if arg 2 is set:
+				send "{@logo} &9Casier Judicaire de %arg 2%:"
+				loop {cj.infraction.%arg 2%::*}:
+					send "{@logo} &c%loop-value%"
+			else:
+				send "&cPour voir les infractions d'un joueur faites /cj show Player"
+
+
+		if arg 1 is "remove":
+			if arg-3 is set:
+				delete {cj.infraction.%arg 2%::%{cj.numero.%arg 2%}%}
+				add -1 to {cj.numero.%arg 2%}
+				send "{@logo} &9Tu as supprimé une infraction du casier de &c%arg 2%"

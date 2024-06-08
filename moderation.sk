@@ -1,0 +1,173 @@
+options:
+	logo: &4&lYtria Moderation &f >> &r
+    
+    
+On join:	
+	set {online.%player%} to 1
+On quit:
+	set {online.%player%} to 0
+
+aliases:
+	info = dirt
+	matraque = grass
+#---------------------------   
+command /ystaff:
+	permission: admin.use
+	trigger:
+		create a new gui with virtual chest inventory named "&4&lYtria Moderation &f >>" with 6 rows:
+			make gui slot 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 and 54 with black stained glass pane named  "&f "
+			make gui slot 4 with info named "&fPseudo : &e%player%"
+			make gui slot 11 with head of player named "&eActivé / désactivé le Vanish":
+				execute player command "/v"
+			make gui slot 13 with head of player named "&eActivé / désactivé le Fly":
+				execute player command "/fly"
+			make gui slot 15 with head of player named "&eVoir les reports":
+				execute player command "/sr list 1"
+			make gui slot 29 with blaze rod named "&eMettre le jour ": 
+				execute console command "/time set day"
+				send "&aVous avez mit le jour"
+			make gui slot 31 with bucket named "&eEnlever la pluie ": 
+				execute console command "/weather sun"
+				send "&aVous avez retirer la pluie"
+			make gui slot 32 with dirt named "&eJoueurs ban : ":
+				create a new gui with virtual chest inventory named "&4&lYtria Moderation &f >>" with 6 rows:
+					loop {banlist::*}:
+						make gui slot %loop-index% with dirt named "&fPseudo : &e%loop-value%"
+				open last created gui to player
+
+
+
+
+		open last created gui to player		
+
+
+#--------------------------------------------------------
+    
+command /ymoderation <offline player>:
+	permission: admin.use
+	trigger:
+		create a new gui with virtual chest inventory named "&4&lYtria Moderation &f >>" with 6 rows:
+			make gui slot 0, 1, 2, 3, 5, 6, 7, 9, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 and 54 with black stained glass pane named  "&f "
+			make gui slot 4 with info named "&fPseudo : &e%arg 1%"
+
+			make gui slot 8 with redstone torch named "&eConnection" with lore "&7>> Statue :&r %{connection::%uuid of arg 1%}%" and "&7>> Depuis :&r &c%{dateconnection::%uuid of arg 1%}%" and "&7>> Première connection le : &a%{premiere.connection.%uuid of player%}% "
+
+			make gui slot 11 with book named "&ePrénom / Nom RP" with lore "&7>> &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}%"
+
+			make gui slot 13 with book named "&eAge RP" with lore "&7>> &a%{age::%uuid of arg 1%}% ans"
+
+			make gui slot 15 with book named "&eSexe RP" with lore "&7>> &a%{sexe::%uuid of arg 1%}%"
+
+			make gui slot 29 with blaze rod named "&eBanni(e) ?" with lore "&7>> &a%{ban.%uuid of arg 1%}%" and "&7>> Pour : &a%{ban.raison.%uuid of arg 1%}%" and "&7>> Depuis le : &a%{ban.date.%uuid of arg 1%}%" and "&7>> Par : &a%{ban.bannisseur.%uuid of arg 1%}%" and "&7>> Essaie de connection : &a%{ban.essaiedeconnexion.%uuid of arg 1%}% fois"
+
+			make gui slot 31 with bucket named "&eBanni(e) - IP ?" with lore "&7>> &a%{banip.%uuid of arg 1%}%" and "&7>> Pour : &a%{banip.raison.%uuid of arg 1%}%" and "&7>> Depuis le : &a%{banip.date.%uuid of arg 1%}%" and "&7>> Par : &a%{banip.bannisseur.%uuid of arg 1%}%" and "&7>> Essaie de connection : &a%{ban.essaiedeconnexion.%uuid of arg 1%}% fois"
+
+
+		open last created gui to player	
+
+#----------------------------------------------------------------
+
+on connect:
+    if {ban.%uuid of player%} is "Oui":
+        add 1 to {ban.essaiedeconnexion.%uuid of player%}
+        kick player due to "&7Vous avez été définitivement banni de nos Serveurs !%nl%&fVous avez été banni par le Staff &c%{ban.bannisseur.%uuid of player%}%&f !%nl%&fRaison du Bannissement: &c%{ban.raison.%uuid of player%}% &f!%nl%&fDate du Bannissement: &c%{ban.date.%uuid of player%}% &f!%nl%&fCela fait &c%{ban.essaiedeconnexion.%uuid of player%}% fois &fque vous essayer de vous connecter !"
+    if {banip.%uuid of player%} is "Oui":
+        if {banip.ip.%uuid of player%} is IP of player:
+            add 1 to {ban.essaiedeconnexion.%uuid of player%}
+            kick player due to "&7Vous avez été définitivement banni-ip de nos Serveurs !%nl%&fVous avez été banni-ip par le Staff &c%{banip.bannisseur.%uuid of player%}%&f !%nl%&fRaison du Bannissement: &c%{banip.raison.%uuid of player%}% &f!%nl%&fDate du Bannissement: &c%{banip.date.%uuid of player%}% &f!%nl%&fCela fait &c%{ban.essaiedeconnexion.%uuid of player%}% &fque vous essayer de vous connecter !"                  
+
+command /yban [<player>] [<text>]:
+    permission: ban.mod
+    permission message: Tu n'as pas le droit de ban !
+    executable by: console and player
+    trigger:
+        if arg 1 isn't set:
+            send "{@logo} &7Séléctionne un Joueur !" to player
+            stop
+        else:
+            if arg 2 isn't set:
+                send "{@logo} &7Pour quelle Raison tu veux bannir le joueur &e%arg 1% &7?" to player
+                stop
+            else:
+                set {ban.date.%uuid of arg 1%} to now
+                set {ban.%uuid of arg 1%} to "Oui"
+                set {ban.raison.%uuid of arg 1%} to arg 2
+                set {ban.bannisseur.%uuid of arg 1%} to "%player%"
+
+                add arg 1 to {banlist::*}
+
+                broadcast "&e%arg 1% &7a été banni pour &c%arg 2%"
+                kick arg 1 due to "&fVous avez été banni par le Staff &c%{ban.bannisseur.%uuid of arg 1%}%&f !%nl%&fRaison du Bannissement: &c%{ban.raison.%uuid of arg 1%}% !%nl%&fDate du Bannissement: &c%{ban.date.%uuid of arg 1%}%"
+
+
+command /ybanip [<player>] [<text>]:
+    permission: ban.mod
+    permission message: Tu n'as pas le droit de ban !
+    executable by: console and player
+    trigger:
+        if arg 1 isn't set:
+            send "{@logo} &7Séléctionne un Joueur !" to player
+            stop
+        else:
+            if arg 2 isn't set:
+                send "{@logo} &7Pour quelle Raison tu veux bannir le joueur &e%arg 1% &7?" to player
+                stop
+            else:
+                set {banip.date.%uuid of arg 1%} to now
+                set {banip.%uuid of arg 1%} to "Oui"
+                set {banip.ip.%uuid of arg 1%} to IP of arg 1
+                set {banip.raison.%uuid of arg 1%} to arg 2
+                set {banip.bannisseur.%uuid of arg 1%} to "%player%"
+                broadcast "&e%arg 1% &7a été banni-ip pour &c%arg 2%"
+                kick arg 1 due to "&fVous avez été banni-ip par le Staff &c%{banip.bannisseur.%uuid of arg 1%}%&f !%nl%&fRaison du Bannissement: &c%{banip.raison.%uuid of arg 1%}% !%nl%&fDate du Bannissement: &c%{banip.date.%uuid of arg 1%}%"
+
+
+command /yunban [<offline player>]:
+    permission: unban.mod
+    permission message: Tu n'as pas la permission de déban
+    executable by: console and player
+    trigger:
+        if arg 1 isn't set:
+            send "{@logo} &7Séléctionne un Joueur !" to player
+            stop
+        else:
+            if {ban.%uuid of arg 1%} is "Oui":
+                send "{@logo} &7Tu as débanni le joueur &e%arg 1%" to player
+                set {ban.date.%uuid of arg 1%} to "&c//"
+                set {ban.%uuid of arg 1%} to "&cNon"
+                set {ban.raison.%uuid of arg 1%} to "&c//"
+                set {ban.bannisseur.%uuid of arg 1%} to "&c//"
+                set {ban.essaiedeconnexion.%uuid of arg 1%} to 0
+                remove arg 1 from {banlist::*}
+            else:
+                send "{@logo} &7Le joueur &e%arg 1% &7n'est pas banni !" to player
+
+
+command /yunbanip [<offline player> ]:
+    permission: unban.mod
+    permission message: Tu n'as pas la permission de déban
+    executable by: console and player
+    trigger:
+        if arg 1 isn't set:
+            send "{@logo} &7Séléctionne un Joueur !" to player
+            stop
+        else:
+            if {banip.%uuid of arg 1%} is "Oui":
+                send "{@logo} &7Tu as débanni-ip le joueur &e%arg 1%" to player
+                set {banip.date.%uuid of arg 1%} to "&c//"
+                delete {banip.ip.%uuid of arg 1%}
+                set {banip.%uuid of arg 1%} to "&cNon"
+                set {banip.raison.%uuid of arg 1%} to "&c//"
+                set {banip.bannisseur.%uuid of arg 1%} to "&c//"
+                set {banip.essaiedeconnexion.%uuid of arg 1%} to 0
+            else:
+                send "{@logo} &7Le joueur &e%arg 1% &7n'est pas banni-ip !" to player 
+
+
+
+
+
+command /ticket [<text>]:
+	trigger:
+		if arg 1 is not set:
+			send ""

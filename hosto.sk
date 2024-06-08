@@ -1,0 +1,36 @@
+on death:
+    victim is player:
+        wait 1 tick
+        force victim to respawn
+        heal the victim
+        execute console command "/hostoplayer %victim%"
+
+command hostoplayer <player>:
+    permission: admin.envoyerquelquunalhosto
+    trigger:  
+        set {med.mini1} to 0
+        Loop {hostomembre::*}:
+            remove loop-value from {hostomembre::*}
+            remove loop-index from {hostomembre::*}
+        loop all players:
+            if {med.mini1} is not 1:
+                if loop-value is not arg 1:
+                    if loop-value has permission "metier.hosto":
+                        if loop-value has permission "metier.admin":
+                            if loop-value is "Mathias42lm":
+                                message "Vous allez être pris en charge par un medcin" to arg 1
+                                set {med.mini1} to 1
+                        else:
+                            message "Vous allez être pris en charge par un medcin" to arg 1
+                            set {med.mini1} to 1
+            if loop-value is not arg 1:
+                if loop-value has permission "metier.hosto":
+                    if loop-value has permission "metier.admin":
+                        if loop-value is "Mathias42lm":
+                            add "Mathias42lm" to {hostomembre::*}
+                    else:
+                        add loop-value to {hostomembre::*}
+            if {med.mini1} is 1:
+                execute console command "/tp %arg 1% -509 64 371"
+            else:
+                execute console command "/tp %arg 1% -518 68 319"	

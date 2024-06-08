@@ -1,0 +1,23 @@
+command /radar <player> <number> <int>:
+	permission: admin.use
+	trigger:
+		set {diffvitesse} to arg 2
+		subtract arg 3 from {diffvitesse} 
+		if {diffvitesse} is greater than 20:
+			if {diffvitesse} is smaller than 50:
+				message "[&2RADAR-AUTOMATIQUE&f] &bVous venez d'etre flashé a %arg 2%Km/H pour %arg 3%Km/H" to arg 1
+				message "[&2RADAR-AUTOMATIQUE&f] &bVous avez payer votre amende de 90" to arg 1
+				remove 90 from balance of arg 1
+				make console execute command "/pointfdl %arg 1% 2"
+		if {diffvitesse} is greater than 50:
+			message "[&2RADAR-AUTOMATIQUE&f] &bVous venez d'etre flashé a %arg 2%Km/H pour %arg 3%Km/H" to arg 1
+			message "[&2RADAR-AUTOMATIQUE&f] &bVous avez payer votre amende de 90" to arg 1
+			message "[&2RADAR-AUTOMATIQUE&f] &bLa gendarmerie a été avertie de votre vitesse" to arg 1
+			remove 90 from balance of arg 1
+			make console execute command "/pointfdl %arg 1% 2"
+			loop all players:
+				if {frenquence.%loop-player%} is 2:
+					set {radarlocX} to X-location of arg 1
+					set {radarlocY} to Y-location of arg 1
+					set {radarlocZ} to Z-location of arg 1
+					send "&4[&l&9CORG&r&4]&f - Un éxès de vitesse a été detecter par un &2RADAR AUTOMATIQUE&f en %{radarlocX}% %{radarlocY}% %{radarlocZ}% à %arg 2%Km/H" to loop-player

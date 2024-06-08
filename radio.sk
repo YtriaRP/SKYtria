@@ -1,0 +1,216 @@
+on leave:
+	loop all players:
+		if {frenquence.%loop-player%} is 1 :
+			send "&4[&l&bTN242&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+		if {frenquence.%loop-player%} is 2 :
+			send "&4[&l&9CORG&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+		if {frenquence.%loop-player%} is 42:
+			send "&4[&l&2Central 42&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+		if {frenquence.%loop-player%} is 4:
+			send "&4[&l&cGOLF1&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+		if {frenquence.%loop-player%} is 3:
+			send "&4[&l&fCRA15&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+	set {frenquence.%player%} to 0
+
+command /rfrequence <number>:
+	trigger:
+		if arg 1 is 1:
+			if player has permission "fdl.radio":
+				set {frenquence.%player%} to arg 1
+				loop all players:
+					if {frenquence.%loop-player%} is 1 :
+						send "&4[&l&bTN242&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se connecter en radio !" to loop-player
+						
+						send "&aVous venez de vous connecter à la fréquence du &bTN242"
+
+		if arg 1 is 2:
+			if player has permission "fdl.radio":
+				set {frenquence.%player%} to arg 1
+				loop all players:
+					if {frenquence.%loop-player%} is 2:
+						send "&4[&l&9CORG&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se connecter en radio !" to loop-player
+						send "&aVous venez de vous connecter à la fréquence du &bCORG"
+			else:
+				send "&cVous devez être force de l'ordre pour vous connecter à la fréquence du &bCORG"
+		
+		if arg 1 is 3:
+			if player has permission "fdl.radio":
+				set {frenquence.%player%} to arg 1
+				send "&aVous venez de vous connecter à la fréquence de &bCRA242"
+				loop all players:
+					if {frenquence.%loop-player%} is 3:
+						send "&4[&l&fCRA15&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se connecter en radio !" to loop-player
+			else:
+				send "&cVous devez être force de l'ordre pour vous connecter à la fréquence du &bCRA242"
+
+		if arg 1 is 4:
+			if player has permission "fdl.radio":
+				set {frenquence.%player%} to arg 1
+				send "&aVous venez de vous connecter à la fréquence de &bGOLF1"
+				loop all players:
+					if {frenquence.%loop-player%} is 4:
+						send "&4[&l&3GOLF1&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se connecter en radio !" to loop-player
+			else:
+				send "&cVous devez être force de l'ordre pour vous connecter à la fréquence du &bGOLF1"
+
+		if arg 1 is 42:
+			if player has permission "fdl.radio":
+				set {frenquence.%player%} to arg 1
+				send "&aVous venez de vous connecter à la fréquence de la &bCentral Militaire"
+				loop all players:
+					if {frenquence.%loop-player%} is 42:
+						send "&4[&l&2Central 42&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se connecter en radio !" to loop-player
+			else:
+				send "&cVous devez être force de l'ordre pour vous connecter à la fréquence du &bMILITAIRE"
+
+command /roff:
+	trigger:
+		loop all players:
+			if {frenquence.%loop-player%} is 1 :
+				send "&4[&l&bTN242&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+			if {frenquence.%loop-player%} is 2 :
+				send "&4[&l&9CORG&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+			if {frenquence.%loop-player%} is 42:
+				send "&4[&l&2Central 42&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+			if {frenquence.%loop-player%} is 4:
+				send "&4[&l&cGOLF1&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player
+			if {frenquence.%loop-player%} is 3:
+				send "&4[&l&fCRA15&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &fviens de se déconnecter de la radio !" to loop-player 
+			set {frenquence.%player%} to 0
+			send "&cVous venez d'éteindre votre radio !"
+
+command /radio <text>:
+	permission message: Vous devez être force de l'ordre pour faire cette commande !
+	permission: fdl.radio
+	trigger:
+		if {frenquence.%player%} is 0:
+			send "&cConnecter vous à une fréquence avant de parler en radio !"
+		if {frenquence.%player%} is 1:
+			loop all players:
+				if {frenquence.%loop-player%} is 1:
+					send "&4[&l&bTN242&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &f%arg 1%" to loop-player
+		if {frenquence.%player%} is 42:
+			loop all players:
+				if {frenquence.%loop-player%} is 42:
+					send "&4[&l&2Central 42&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &f%arg 1%" to loop-player
+		if {frenquence.%player%} is 4:
+			loop all players:
+				if {frenquence.%loop-player%} is 4:
+					send "&4[&l&cGOLF1&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &f%arg 1%" to loop-player
+		if {frenquence.%player%} is 3:
+			loop all players:
+				if {frenquence.%loop-player%} is 3:
+					send "&4[&l&fCRA15&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &f%arg 1%" to loop-player           
+		if {frenquence.%player%} is 2:
+			loop all players:
+				if {frenquence.%loop-player%} is 2:
+					send "&4[&l&9CORG&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &f%arg 1%" to loop-player
+
+command /intercom <text>:
+	permission: fdl.radio
+	permission message: Vous devez être force de l'ordre pour faire cette commande !
+	trigger:
+		loop all players:
+			if loop-player has permission "fdl.radio":
+				send "&4[&l&3INTER COMMUNICATION&r&4]&f - &e[%{prenom::%uuid of player%}% %{nom::%uuid of player%}%] &f%arg 1%" to loop-player
+                
+
+
+
+command /hrp <text>:
+	trigger:
+		broadcast "&e[&4&l||| &6HRP&4 |||&r&e]&f - [%player%] : %arg 1%"
+  
+  
+command /anonyme <text>:
+	trigger:
+		broadcast "&4[&eANONYME&4] &f%arg 1%"
+              
+                
+command /urgence:
+	permission: fdl.radio	
+	permission message: "&cVous devez être force de l'ordre pour demander du  refort !"
+	trigger:
+		loop all players:
+			if loop-player has permission "fdl.radio":
+				send "&4[&l&aURGENCE&r&4]&f - &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}% &bà besoin de refort imminant en &e%player's x-coordinate% %player's y-coordinate% %player's z-coordinate% &b!" to loop-player
+
+
+
+
+
+
+
+
+
+command /112 <text>:
+	trigger:
+		send "&aAppel au 112 envoyer pour %arg 1%"
+		loop all players:
+			if loop-player has permission "fdl.radio":
+				send "&3====================&4[&l&a112&r&4]&3===================="  to loop-player
+				send "&9Émetteur : &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}%"  to loop-player
+				send "&9Raison : &e%arg 1%"  to loop-player
+				send "&9Coordonné : &e%player's x-coordinate% %player's y-coordinate% %player's z-coordinate%" to loop-player
+				send "&3====================&4[&l&a112&r&4]&3===================="  to loop-player
+
+
+
+
+command /clearchat:
+	permission: admin.use
+	trigger:
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""
+		send ""

@@ -1,0 +1,679 @@
+command /metier <offline player> [<text>]:
+   permission: modo.metier
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      if arg 2 is not set:
+         message "Métier possible : mili, gn, pompier"
+      if arg 2 is "Mili":
+         set {metier::%uuid of arg 1%} to "Militaire"
+         set {grade::%uuid of arg 1%} to "Soldat"
+         message "&aVous êtes désormait Militaire au grade Soldat" to arg 1
+         message "&a Le joueur a bien été mis métier Militaire"
+      if arg 2 is "Gn":
+         set {metier::%uuid of arg 1%} to "Gendarme"
+         set {grade::%uuid of arg 1%} to "Gendarme Adjoint Volontaire"
+         message "&aVous êtes désormait Gendarme au grade de Gendarme Adjoint Volontaire" to arg 1
+         message "&a Le joueur a bien été mis métier Gendarme"
+      if arg 2 is "Pompier":
+         set {metier::%uuid of arg 1%} to "Pompier"
+         set {grade::%uuid of arg 1%} to "1er-classe"
+         message "&aVous êtes désormait Pompier au grade de 1er Classe" to arg 1
+         message "&a Le joueur a bien été mis métier Pompier"
+
+command /hgrecrute <player>:
+   permission: hg.metier
+   trigger:
+      if {metier::%uuid of arg 1%} is not "Civil":
+         message "&cCette personne a déja un métier"
+      if {metier::%uuid of player%} is "Militaire":
+         if {metier::%uuid of arg 1%} is "Civil":
+            message "&aVous êtes maintenant Soldat militaire" to arg 1
+            message "&aIl est maintenant Soldat militaire"
+            set {metier::%uuid of arg 1%} to "Militaire"
+            set {grade::%uuid of arg 1%} to "Soldat"
+            
+      if {metier::%uuid of player%} is "Gendarme":
+         if {metier::%uuid of arg 1%} is "Civil":
+            message "&aVous êtes maintenant Gendarme Adjoint Volontaire" to arg 1
+            message "&aIl est maintenant Gendarme Adjoint Volontaire"
+            set {metier::%uuid of arg 1%} to "Gendarme"
+            set {grade::%uuid of arg 1%} to "Gendarme Adjoint Volontaire"
+
+command /hgkickmetier <player>:
+   permission: hg.kick
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      if {metier::%uuid of player%} is "Militaire":
+         if {metier::%uuid of arg 1%} is "Militaire":
+            set boot of player to air
+            set {metier::%uuid of arg 1%} to "Civil"
+            set {grade::%uuid of arg 1%} to ""
+            message "&aLe joueur a été viré"
+            message "&aVous venez d'être virez par %player%" to arg 1
+      if {metier::%uuid of player%} is "Gendarme":
+         if {metier::%uuid of arg 1%} is "Gendarme":
+            set helmet of player to air
+            set legging of player to air
+            set chestplate of player to air
+            set boot of player to air
+            set {metier::%uuid of arg 1%} to "Civil"
+            set {grade::%uuid of arg 1%} to ""
+            message "&aLe joueur a été viré"
+            message "&aVous venez d'être virez par %player%" to arg 1
+
+command /grade:
+   trigger:
+      if {metier::%uuid of player%} is "Civil":
+         set {message1.%player%} to "§aCivil"
+         set {message2.%player%} to ""
+      if {metier::%uuid of player%} is "Militaire":
+         set {message1.%player%} to "§2Militaire"
+         if {grade::%uuid of player%} is "Soldat":
+            set {message2.%player%} to "§2Soldat"
+         if {grade::%uuid of player%} is "Soldat 1er classe":
+            set {message2.%player%} to "§2Soldat 1er classe"
+         if {grade::%uuid of player%} is "Caporal":
+            set {message2.%player%} to "§2Caporal"
+         if {grade::%uuid of player%} is "Caporale Chef":
+            set {message2.%player%} to "§2Caporale Chef"
+
+         if {grade::%uuid of player%} is "Sergent":            
+            set {message2.%player%} to "§2Sergent"
+         if {grade::%uuid of player%} is "Sergent Chef":            
+            set {message2.%player%} to "§2Sergent Chef"
+         if {grade::%uuid of player%} is "Adjudant":
+            set {message2.%player%} to "§2Adjudant"
+         if {grade::%uuid of player%} is "Adjudant Chef":
+            set {message2.%player%} to "§2Adjudant Chef"
+         if {grade::%uuid of player%} is "Major":
+            set {message2.%player%} to "§2Major"
+
+         if {grade::%uuid of player%} is "SousLieutenant":
+            set {message2.%player%} to "§2Sous Lieutenant"
+         if {grade::%uuid of player%} is "Lieutenant":
+            set {message2.%player%} to "§2Lieutenant"
+         if {grade::%uuid of player%} is "Capitaine":
+            set {message2.%player%} to "§2Capitaine"
+         if {grade::%uuid of player%} is "Commandant":
+            set {message2.%player%} to "§2Commandant"
+         if {grade::%uuid of player%} is "Lieutenant Colonel":
+            set {message2.%player%} to "§2Lieutenant Colonel"
+         if {grade::%uuid of player%} is "Colonel":
+            set {message2.%player%} to "§2Colonel"
+
+      if {metier::%uuid of player%} is "Gendarme":
+         set {message1.%player%} to "§1Gendarme"
+         if {grade::%uuid of player%} is "Gendarme Adjoint Volontaire":
+            set {message2.%player%} to "§1Gendarme Adjoint Volontaire"
+         if {grade::%uuid of player%} is "Gendarme Adjoint Volontaire 1er classe":
+            set {message2.%player%} to "§1Gendarme Adjoint Volontaire 1er classe"
+         if {grade::%uuid of player%} is "Brigadier":
+            set {message2.%player%} to "§1Brigadier"
+         if {grade::%uuid of player%} is "Brigadier Chef":
+            set {message2.%player%} to "§1Brigadier Chef"
+         if {grade::%uuid of player%} is "Maréchal des Logis":
+            set {message2.%player%} to "§1Maréchal des Logis"
+
+         if {grade::%uuid of player%} is "Gendarme Sous Contrat":
+            set {message2.%player%} to "§1Gendarme Sous Contrat"
+         if {grade::%uuid of player%} is "Gendarme de Carrière":
+            set {message2.%player%} to "§1Gendarme de Carrière"
+         if {grade::%uuid of player%} is "Maréchal des Logis Chef":
+            set {message2.%player%} to "§1Maréchal des Logis Chef"
+         if {grade::%uuid of player%} is "Adjudant":
+            set {message2.%player%} to "§1Adjudant"
+         if {grade::%uuid of player%} is "Adjudant chef":
+            set {message2.%player%} to "§1Adjudant Chef"
+         if {grade::%uuid of player%} is "Major":
+            set {message2.%player%} to "§1Major"
+
+         if {grade::%uuid of player%} is "Aspirant":
+            set {message2.%player%} to "§1Aspirant"
+         if {grade::%uuid of player%} is "Sous Lieutenant":
+            set {message2.%player%} to "§1Sous Lieutenant"
+         if {grade::%uuid of player%} is "Lieutenant":
+            set {message2.%player%} to "§1Lieutenant"
+         if {grade::%uuid of player%} is "Capitaine":
+            set {message2.%player%} to "§1Capitaine"
+         if {grade::%uuid of player%} is "Chef d'Escadron":
+            set {message2.%player%} to "§1Chef d'Escadron"
+
+
+      message "&aMétier : &e%{message1.%player%}%"
+      message "&aGrade : &e%{message2.%player%}%" 
+       
+command /metierinfo <offline player>:
+   permission: modo.voir
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      message "&aMétier : &e%{metier::%uuid of player%}%"
+      message "&aGrade : &e%{grade::%uuid of player%}%"
+
+command /rankup <player>:
+   permission: fdl.hgup
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      #----------------------------------------------------------------------
+      #Partit mili
+      if {metier::%uuid of player%} is "Militaire":
+         if {metier::%uuid of arg 1%} is "Militaire":
+
+            if {grade::%uuid of arg 1%} is "Colonel":
+               message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+            if {grade::%uuid of arg 1%} is "Lieutenant Colonel":
+               message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+            if {grade::%uuid of arg 1%} is "Commandant":
+               message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+            if {grade::%uuid of arg 1%} is "Capitaine":
+               message "&aVous êtes maintenant Commandant" to arg 1
+               message "&aIl est rankup Commandant"
+               set {grade::%uuid of arg 1%} to "Commandant"
+
+            if {grade::%uuid of arg 1%} is "Lieutenant":
+               message "&aVous êtes maintenant Capitaine" to arg 1
+               message "&aIl est rankup Capitaine"
+               set {grade::%uuid of arg 1%} to "Capitaine"
+
+            if {grade::%uuid of arg 1%} is "Sous Lieutenant":
+               message "&aVous êtes maintenant Lieutenant" to arg 1
+               message "&aIl est rankup Lieutenant"
+               set {grade::%uuid of arg 1%} to "Lieutenant"
+
+            if {grade::%uuid of arg 1%} is "Major":
+               message "&aVous êtes maintenant Sous Lieutenant" to arg 1
+               message "&aIl est rankup Sous Lieutenant"
+               set {grade::%uuid of arg 1%} to "Sous Lieutenant"
+
+            if {grade::%uuid of arg 1%} is "Adjudant Chef":
+               message "&aVous êtes maintenant Major" to arg 1
+               message "&aIl est rankup Major"
+               set {grade::%uuid of arg 1%} to "Major"
+
+            if {grade::%uuid of arg 1%} is "Adjudant":
+               message "&aVous êtes maintenant Adjudant Chef" to arg 1
+               message "&aIl est rankup Adjudant Chef"
+               set {grade::%uuid of arg 1%} to "Adjudant Chef"
+
+            if {grade::%uuid of arg 1%} is "Sergent Chef":
+               message "&aVous êtes maintenant Adjudant" to arg 1
+               message "&aIl est rankup Adjudant"
+               set {grade::%uuid of arg 1%} to "Adjudant"
+
+            if {grade::%uuid of arg 1%} is "Sergent":
+               message "&aVous êtes maintenant Sergent Chef" to arg 1
+               message "&aIl est rankup Sergent Chef"
+               set {grade::%uuid of arg 1%} to "Sergent Chef"
+
+            if {grade::%uuid of arg 1%} is "Caporale Chef":
+               message "&aVous êtes maintenant Sergent" to arg 1
+               message "&aIl est rankup Sergent"
+               set {grade::%uuid of arg 1%} to "Sergent"
+
+            if {grade::%uuid of arg 1%} is "Caporal":
+               message "&aVous êtes maintenant Caporale Chef" to arg 1
+               message "&aIl est rankup Caporale Chef"
+               set {grade::%uuid of arg 1%} to "Caporale Chef"
+
+            if {grade::%uuid of arg 1%} is "Soldat 1er classe":
+               message "&aVous êtes maintenant Caporal" to arg 1
+               message "&aIl est rankup Caporal"
+               set {grade::%uuid of arg 1%} to "Caporal"
+
+            if {grade::%uuid of arg 1%} is "Soldat":
+               message "&aVous êtes maintenant Soldat 1er classe" to arg 1
+               message "&aIl est rankup Soldat 1er classe"
+               set {grade::%uuid of arg 1%} to "Soldat 1er classe"
+
+      #----------------------------------------------------------------------
+
+      if {metier::%uuid of player%} is "Gendarme":
+         if {metier::%uuid of arg 1%} is "Gendarme":  
+
+            if {grade::%uuid of arg 1%} is "Chef d'Escadron":
+               message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+            if {grade::%uuid of arg 1%} is "Capitaine":
+               message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+            if {grade::%uuid of arg 1%} is "Lieutenant":
+               message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+            if {grade::%uuid of arg 1%} is "Sous Lieutenant":
+               set {grade::%uuid of arg 1%} to "Lieutenant"
+               message "&aIl est rankup Lieutenant"
+               message "&aVous êtes maintenant Lieutenant" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Aspirant":
+               set {grade::%uuid of arg 1%} to "Sous Lieutenant"
+               message "&aIl est rankup Sous Lieutenant"
+               message "&aVous êtes maintenant Sous Lieutenant" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Major":
+               set {grade::%uuid of arg 1%} to "Aspirant"
+               message "&aIl est rankup Aspirant"
+               message "&aVous êtes maintenant Aspirant" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Adjudant Chef":
+               set {grade::%uuid of arg 1%} to "Major"
+               message "&aIl est rankup Major"
+               message "&aVous êtes maintenant Major" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Adjudant":
+               set {grade::%uuid of arg 1%} to "Adjudant Chef"
+               message "&aIl est rankup Adjudant Chef"
+               message "&aVous êtes maintenant Adjudant Chef" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Maréchal des Logis Chef":
+               set {grade::%uuid of arg 1%} to "Adjudant"
+               message "&aIl est rankup Adjudant"
+               message "&aVous êtes maintenant Adjudant" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Gendarme de Carrière":
+               set {grade::%uuid of arg 1%} to "Maréchal des Logis Chef"
+               message "&aIl est rankup Maréchal des Logis Chef"
+               message "&aVous êtes maintenant Maréchal des Logis Chef" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Gendarme Sous Contrat":
+               set {grade::%uuid of arg 1%} to "Gendarme de Carrière"
+               message "&aIl est rankup Gendarme de Carrière"
+               message "&aVous êtes maintenant Gendarme de Carrière" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Maréchal des Logis":
+               set {grade::%uuid of arg 1%} to "Gendarme Sous Contrat"
+               message "&aIl est rankup Gendarme Sous Contrat"
+               message "&aVous êtes maintenant Gendarme Sous Contrat" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Brigadier Chef":
+               set {grade::%uuid of arg 1%} to "Maréchal des Logis"
+               message "&aIl est rankup Maréchal des Logis"
+               message "&aVous êtes maintenant Maréchal des Logis" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Brigadier":
+               set {grade::%uuid of arg 1%} to "Brigadier Chef"
+               message "&aIl est rankup Brigadier Chef"
+               message "&aVous êtes maintenant Brigadier Chef" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Gendarme Adjoint Volontaire 1er classe":
+               set {grade::%uuid of arg 1%} to "Brigadier"
+               message "&aIl est rankup Brigadier"
+               message "&aVous êtes maintenant Brigadier" to arg 1
+
+            if {grade::%uuid of arg 1%} is "Gendarme Adjoint Volontaire":
+               set {grade::%uuid of arg 1%} to "Gendarme Adjoint Volontaire 1er classe"
+               message "&aIl est rankup Gendarme Adjoint Volontaire 1er classe"
+               message "&aVous êtes maintenant Gendarme Adjoint Volontaire 1er classe" to arg 1
+
+command /rankupadmin <player>:
+   permission: admin.use
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      #----------------------------------------------------------------------
+      #Partit mili
+      if {metier::%uuid of arg 1%} is "Militaire":
+
+         if {grade::%uuid of arg 1%} is "Colonel":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Lieutenant Colonel":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Commandant":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Capitaine":
+            message "&aVous êtes maintenant Commandant" to arg 1
+            message "&aIl est rankup Commandant"
+            set {grade::%uuid of arg 1%} to "Commandant"
+
+         if {grade::%uuid of arg 1%} is "Lieutenant":
+            message "&aVous êtes maintenant Capitaine" to arg 1
+            message "&aIl est rankup Capitaine"
+            set {grade::%uuid of arg 1%} to "Capitaine"
+
+         if {grade::%uuid of arg 1%} is "Sous Lieutenant":
+            message "&aVous êtes maintenant Lieutenant" to arg 1
+            message "&aIl est rankup Lieutenant"
+            set {grade::%uuid of arg 1%} to "Lieutenant"
+
+         if {grade::%uuid of arg 1%} is "Major":
+            message "&aVous êtes maintenant Sous Lieutenant" to arg 1
+            message "&aIl est rankup Sous Lieutenant"
+            set {grade::%uuid of arg 1%} to "Sous Lieutenant"
+
+         if {grade::%uuid of arg 1%} is "Adjudant Chef":
+            message "&aVous êtes maintenant Major" to arg 1
+            message "&aIl est rankup Major"
+            set {grade::%uuid of arg 1%} to "Major"
+
+         if {grade::%uuid of arg 1%} is "Adjudant":
+            message "&aVous êtes maintenant Adjudant Chef" to arg 1
+            message "&aIl est rankup Adjudant Chef"
+            set {grade::%uuid of arg 1%} to "Adjudant Chef"
+
+         if {grade::%uuid of arg 1%} is "Sergent Chef":
+            message "&aVous êtes maintenant Adjudant" to arg 1
+            message "&aIl est rankup Adjudant"
+            set {grade::%uuid of arg 1%} to "Adjudant"
+
+         if {grade::%uuid of arg 1%} is "Sergent":
+            message "&aVous êtes maintenant Sergent Chef" to arg 1
+            message "&aIl est rankup Sergent Chef"
+            set {grade::%uuid of arg 1%} to "Sergent Chef"
+
+         if {grade::%uuid of arg 1%} is "Caporale Chef":
+            message "&aVous êtes maintenant Sergent" to arg 1
+            message "&aIl est rankup Sergent"
+            set {grade::%uuid of arg 1%} to "Sergent"
+
+         if {grade::%uuid of arg 1%} is "Caporal":
+            message "&aVous êtes maintenant Caporale Chef" to arg 1
+            message "&aIl est rankup Caporale Chef"
+            set {grade::%uuid of arg 1%} to "Caporale Chef"
+
+         if {grade::%uuid of arg 1%} is "Soldat 1er classe":
+            message "&aVous êtes maintenant Caporal" to arg 1
+            message "&aIl est rankup Caporal"
+            set {grade::%uuid of arg 1%} to "Caporal"
+
+         if {grade::%uuid of arg 1%} is "Soldat":
+            message "&aVous êtes maintenant Soldat 1er classe" to arg 1
+            message "&aIl est rankup Soldat 1er classe"
+            set {grade::%uuid of arg 1%} to "Soldat 1er classe"
+
+      #----------------------------------------------------------------------
+      if {metier::%uuid of arg 1%} is "Gendarme":  
+
+         if {grade::%uuid of arg 1%} is "Chef d'Escadron":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Capitaine":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Lieutenant":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Sous Lieutenant":
+            set {grade::%uuid of arg 1%} to "Lieutenant"
+            message "&aIl est rankup Lieutenant"
+            message "&aVous êtes maintenant Lieutenant" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Aspirant":
+            set {grade::%uuid of arg 1%} to "Sous Lieutenant"
+            message "&aIl est rankup Sous Lieutenant"
+            message "&aVous êtes maintenant Sous Lieutenant" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Major":
+            set {grade::%uuid of arg 1%} to "Aspirant"
+            message "&aIl est rankup Aspirant"
+            message "&aVous êtes maintenant Aspirant" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Adjudant Chef":
+            set {grade::%uuid of arg 1%} to "Major"
+            message "&aIl est rankup Major"
+            message "&aVous êtes maintenant Major" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Adjudant":
+            set {grade::%uuid of arg 1%} to "Adjudant Chef"
+            message "&aIl est rankup Adjudant Chef"
+            message "&aVous êtes maintenant Adjudant Chef" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Maréchal des Logis Chef":
+            set {grade::%uuid of arg 1%} to "Adjudant"
+            message "&aIl est rankup Adjudant"
+            message "&aVous êtes maintenant Adjudant" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Gendarme de Carrière":
+            set {grade::%uuid of arg 1%} to "Maréchal des Logis Chef"
+            message "&aIl est rankup Maréchal des Logis Chef"
+            message "&aVous êtes maintenant Maréchal des Logis Chef" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Gendarme Sous Contrat":
+            set {grade::%uuid of arg 1%} to "Gendarme de Carrière"
+            message "&aIl est rankup Gendarme de Carrière"
+            message "&aVous êtes maintenant Gendarme de Carrière" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Maréchal des Logis":
+            set {grade::%uuid of arg 1%} to "Gendarme Sous Contrat"
+            message "&aIl est rankup Gendarme Sous Contrat"
+            message "&aVous êtes maintenant Gendarme Sous Contrat" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Brigadier-Chef":
+            set {grade::%uuid of arg 1%} to "Maréchal des Logis"
+            message "&aIl est rankup Maréchal des Logis"
+            message "&aVous êtes maintenant Maréchal des Logis" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Brigadier":
+            set {grade::%uuid of arg 1%} to "Brigadier-Chef"
+            message "&aIl est rankup Brigadier-Chef"
+            message "&aVous êtes maintenant Brigadier-Chef" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Gendarme Adjoint Volontaire 1er classe":
+            set {grade::%uuid of arg 1%} to "Brigadier"
+            message "&aIl est rankup Brigadier"
+            message "&aVous êtes maintenant Brigadier" to arg 1
+
+         if {grade::%uuid of arg 1%} is "Gendarme Adjoint Volontaire":
+            set {grade::%uuid of arg 1%} to "Gendarme Adjoint Volontaire 1er classe"
+            message "&aIl est rankup Gendarme Adjoint Volontaire 1er classe"
+            message "&aVous êtes maintenant Gendarme Adjoint Volontaire 1er classe" to arg 1
+  
+command /rankuphg <player>:
+   permission: admin.use
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      #----------------------------------------------------------------------
+      #Partit mili
+      if {metier::%uuid of arg 1%} is "Militaire":
+         if {grade::%uuid of arg 1%} is "Colonel":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Lieutenant Colonel":
+            message "&aVous êtes maintenant Colonel" to arg 1
+            message "&a La personne a été rankup Colonel"
+            set {grade::%uuid of arg 1%} to "Colonel"
+
+         if {grade::%uuid of arg 1%} is "Commandant":
+            message "&aVous êtes maintenant Lieutenant Colonel" to arg 1
+            message "&a La personne a été rankup Lieutenant Colonel"
+            set {grade::%uuid of arg 1%} to "Lieutenant Colonel"
+      #----------------------------------------------------------------------
+      if {metier::%uuid of arg 1%} is "Gendarme":
+         if {grade::%uuid of arg 1%} is "Chef d'Escadron":
+            message "&aVous ne pouvez pas plus l'augmenter dans ces grade"
+
+         if {grade::%uuid of arg 1%} is "Capitaine":
+            message "&aVous êtes maintenant Chef d'Escadron" to arg 1
+            message "&a La personne a été rankup Chef d'Escadron"
+            set {grade::%uuid of arg 1%} to "Chef d'Escadron"
+
+         if {grade::%uuid of arg 1%} is "Lieutenant":
+            message "&aVous êtes maintenant Capitaine" to arg 1
+            message "&a La personne a été rankup Capitaine"
+            set {grade::%uuid of arg 1%} to "Capitaine"
+
+command /demotehg <offline player>:
+   permission: admin.demotehg
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      #----------------------------------------------------------------------
+      #Partit mili
+      if {metier::%uuid of arg 1%} is "Militaire":
+         if {grade::%uuid of arg 1%} is "Commandant":
+            message "&aVous ne pouvez pas plus diminuer dans ces grade passer a la cmd /demote"
+
+         if {grade::%uuid of arg 1%} is "Lieutenant Colonel":
+            message "&aVous êtes maintenant Commandant" to arg 1
+            message "&a La personne a été demote Commandant"
+            set {grade::%uuid of arg 1%} to "Commandant"
+
+         if {grade::%uuid of arg 1%} is "Colonel":
+            message "&aVous êtes maintenant Lieutenant Colonel" to arg 1
+            message "&a La personne a été demote Lieutenant Colonel"
+            set {grade::%uuid of arg 1%} to "Lieutenant Colonel"
+      #----------------------------------------------------------------------
+      if {metier::%uuid of arg 1%} is "Gendarme":
+         if {grade::%uuid of arg 1%} is "Lieutenant":
+            message "&aVous ne pouvez pas plus diminuer dans ces grade passer a la cmd /demote"
+
+         if {grade::%uuid of arg 1%} is "Capitaine":
+            message "&aVous êtes maintenant Lieutenant" to arg 1
+            message "&a La personne a été demote Lieutenant"
+            set {grade::%uuid of arg 1%} to "Lieutenant"
+
+         if {grade::%uuid of arg 1%} is "Chef d'Escadron":
+            message "&aVous êtes maintenant Capitaine" to arg 1
+            message "&a La personne a été demote Capitaine"
+            set {grade::%uuid of arg 1%} to "Capitaine"
+
+command /demote <player>:
+   permission: fdl.hgdemote
+   permission message: &4Tu n'a pas la permissions !
+   trigger:
+      #----------------------------------------------------------------------
+      #Partit mili
+      if {metier::%uuid of player%} is "Militaire":
+         if {metier::%uuid of player%} is "Militaire":
+            if {grade::%uuid of arg 1%} is "Soldat":
+               message "&aVous ne pouvez pas plus demote ce joueur !"
+
+            if {grade::%uuid of arg 1%} is "Soldat 1er classe":
+               message "&aVous êtes maintenant Soldat" to arg 1
+               message "&aIl est demote Soldat"
+               set {grade::%uuid of arg 1%} to "Soldat"
+
+            if {grade::%uuid of arg 1%} is "Caporal":
+               message "&aVous êtes maintenant Soldat 1er classe" to arg 1
+               message "&aIl est demote Soldat 1er classe"
+               set {grade::%uuid of arg 1%} to "Soldat 1er classe"
+
+            if {grade::%uuid of arg 1%} is "Caporale Chef":
+               message "&aVous êtes maintenant Caporal" to arg 1
+               message "&aIl est demote Caporal"
+               set {grade::%uuid of arg 1%} to "Caporal"
+
+            if {grade::%uuid of arg 1%} is "Sergent":
+               message "&aVous êtes maintenant Caporale Chef" to arg 1
+               message "&aIl est demote Caporale Chef"
+               set {grade::%uuid of arg 1%} to "Caporale Chef"
+
+            if {grade::%uuid of arg 1%} is "Sergent Chef":
+               message "&aVous êtes maintenant Sergent" to arg 1
+               message "&aIl est demote Sergent"
+               set {grade::%uuid of arg 1%} to "Sergent"
+
+            if {grade::%uuid of arg 1%} is "Adjudant":
+               message "&aVous êtes maintenant Sergent Chef" to arg 1
+               message "&aIl est demote Sergent Chef"
+               set {grade::%uuid of arg 1%} to "Sergent Chef"
+
+            if {grade::%uuid of arg 1%} is "Adjudant Chef":
+               message "&aVous êtes maintenant Adjudant" to arg 1
+               message "&aIl est demote Adjudant"
+               set {grade::%uuid of arg 1%} to "Adjudant"
+
+            if {grade::%uuid of arg 1%} is "Major":
+               message "&aVous êtes maintenant Adjudant Chef" to arg 1
+               message "&aIl est demote Adjudant Chef"
+               set {grade::%uuid of arg 1%} to "Adjudant Chef"
+
+            if {grade::%uuid of arg 1%} is "Sous lieutenant":
+               message "&aVous êtes maintenant Major" to arg 1
+               message "&aIl est demote Major"
+               set {grade::%uuid of arg 1%} to "Major"
+
+            if {grade::%uuid of arg 1%} is "Lieutenant":
+               message "&aVous êtes maintenant Sous lieutenant" to arg 1
+               message "&aIl est demote Sous lieutenant"
+               set {grade::%uuid of arg 1%} to "Sous lieutenant"
+
+            if {grade::%uuid of arg 1%} is "Capitaine":
+               message "&aVous êtes maintenant Lieutenant" to arg 1
+               message "&aIl est demote Lieutenant"
+               set {grade::%uuid of arg 1%} to "Lieutenant"
+
+            if {grade::%uuid of arg 1%} is "Commandant":
+               message "&aVous êtes maintenant Capitaine" to arg 1
+               message "&aIl est demote Capitaine"
+               set {grade::%uuid of arg 1%} to "Capitaine"
+
+      if {metier::%uuid of player%} is "Gendarme":
+         if {metier::%uuid of player%} is "Gendarme":   
+
+            if {grade::%uuid of arg 1%} is "Gendarme Adjoint Volontaire":
+               message "&aVous ne pouvez pas plus demote ce joueur !"
+
+            if {grade::%uuid of arg 1%} is "Gendarme Adjoint Volontaire 1er classe":
+               set {grade::%uuid of arg 1%} to "Gendarme Adjoint Volontaire"
+               message "&aVous êtes maintenant Gendarme Adjoint Volontaire" to arg 1
+               message "&aIl est demote Gendarme Adjoint Volontaire"
+
+            if {grade::%uuid of arg 1%} is "Brigadier":
+               set {grade::%uuid of arg 1%} to "Gendarme Adjoint Volontaire 1er classe"
+               message "&aVous êtes maintenant Gendarme Adjoint Volontaire 1er classe" to arg 1
+               message "&aIl est demote Gendarme Adjoint Volontaire 1er classe"
+
+            if {grade::%uuid of arg 1%} is "Brigadier Chef":
+               set {grade::%uuid of arg 1%} to "Brigadier"
+               message "&aVous êtes maintenant Brigadier" to arg 1
+               message "&aIl est demote Brigadier"
+
+            if {grade::%uuid of arg 1%} is "Maréchal des Logis":
+               set {grade::%uuid of arg 1%} to "Brigadier Chef"
+               message "&aVous êtes maintenant Brigadier Chef" to arg 1
+               message "&aIl est demote Brigadier Chef"
+
+            if {grade::%uuid of arg 1%} is "Gendarme Sous Contrat":
+               set {grade::%uuid of arg 1%} to "Maréchal des Logis"
+               message "&aVous êtes maintenant Maréchal des Logis" to arg 1
+               message "&aIl est demote Maréchal des Logis"
+
+            if {grade::%uuid of arg 1%} is "Gendarme de Carrière":
+               set {grade::%uuid of arg 1%} to "Gendarme Sous Contrat"
+               message "&aVous êtes maintenant Gendarme Sous Contrat" to arg 1
+               message "&aIl est demote Gendarme Sous Contrat"
+
+            if {grade::%uuid of arg 1%} is "Maréchal des Logis Chef":
+               set {grade::%uuid of arg 1%} to "Gendarme de Carrière"
+               message "&aVous êtes maintenant Gendarme de Carrière" to arg 1
+               message "&aIl est demote Gendarme de Carrière"
+
+            if {grade::%uuid of arg 1%} is "Adjudant":
+               set {grade::%uuid of arg 1%} to "Maréchal des Logis Chef"
+               message "&aVous êtes maintenant Maréchal des Logis Chef" to arg 1
+               message "&aIl est demote Maréchal des Logis Chef"
+
+            if {grade::%uuid of arg 1%} is "Adjudant Chef":
+               set {grade::%uuid of arg 1%} to "Adjudant"
+               message "&aVous êtes maintenant Adjudant" to arg 1
+               message "&aIl est demote Adjudant"
+
+            if {grade::%uuid of arg 1%} is "Major":
+               set {grade::%uuid of arg 1%} to "Adjudant Chef"
+               message "&aVous êtes maintenant Adjudant Chef" to arg 1
+               message "&aIl est demote Adjudant Chef"
+
+            if {grade::%uuid of arg 1%} is "Aspirant":
+               set {grade::%uuid of arg 1%} to "Major"
+               message "&aVous êtes maintenant Major" to arg 1
+               message "&aIl est demote Major"
+
+            if {grade::%uuid of arg 1%} is "Sous Lieutenant":
+               set {grade::%uuid of arg 1%} to "Aspirant"
+               message "&aVous êtes maintenant Aspirant" to arg 1
+               message "&aIl est demote Aspirant"
+
+            if {grade::%uuid of arg 1%} is "Lieutenant":
+               set {grade::%uuid of arg 1%} to "Sous Lieutenant"
+               message "&aVous êtes maintenant Sous Lieutenant" to arg 1
+               message "&aIl est demote Sous Lieutenant"
+
+
+
+command /tenue:
+   trigger:
+      create a gui with virtual chest inventory with 3 rows named "&2Tenues":    
+         make gui 1 and 2 with dirt named "&f"
+      open last created gui to player

@@ -1,0 +1,211 @@
+on right click on dirt:
+    cancel event
+    create a gui with virtual chest inventory with 3 rows named "&2ATM":		
+        make gui 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 and 26 with black stained glass pane named "&f"
+        make gui 11 with gold ingot named "&aDéposer de l'argent &6€":
+            create a gui with virtual chest inventory with 3 rows named "&6ATM | &aDéposer de l'argent &6€":
+                make gui 0 with gold ingot named "&aDéposer 10€" with lore "&7Cliquer pour déposer 10€":
+                    set {depose} to number of gold ingot named "10" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "10" from player's inventory
+                        set {prix} to {depose} * 10
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 2 with gold ingot named "&aDéposer 20€" with lore "&7Cliquer pour déposer 20€":
+                    set {depose} to number of gold ingot named "20" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "20" from player's inventory
+                        set {prix} to {depose} * 20
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 4 with gold ingot named "&aDéposer 30€" with lore "&7Cliquer pour déposer 30€":
+                    set {depose} to number of gold ingot named "30" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "30" from player's inventory
+                        set {prix} to {depose} * 30
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 6 with gold ingot named "&aDéposer 40€" with lore "&7Cliquer pour déposer 40€":
+                    set {depose} to number of gold ingot named "40" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "40" from player's inventory
+                        set {prix} to {depose} * 40
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 8 with gold ingot named "&aDéposer 50€" with lore "&7Cliquer pour déposer 50€":
+                    set {depose} to number of gold ingot named "50" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "50" from player's inventory
+                        set {prix} to {depose} * 50
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 11 with gold ingot named "&aDéposer 100€" with lore "&7Cliquer pour déposer 100€":
+                    set {depose} to number of gold ingot named "100" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "100" from player's inventory
+                        set {prix} to {depose} * 100
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 13 with gold ingot named "&aDéposer 500€" with lore "&7Cliquer pour déposer 500€":
+                    set {depose} to number of gold ingot named "500" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "500" from player's inventory
+                        set {prix} to {depose} * 500
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 15 with gold ingot named "&aDéposer 1000€" with lore "&7Cliquer pour déposer 1000€":
+                    set {depose} to number of gold ingot named "1000" in player's inventory
+                    if {depose} = 0:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas déposé un billet que vous ne possédez pas!"
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "1000" from player's inventory
+                        set {prix} to {depose} * 1000
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prix}%€!"
+                        add {prix} to balance of player
+                make gui 22 with gold ingot named "&aDéposer tout votre argent" with lore "&7Cliquer pour tout déposer":
+                    set {prixtotal} to 0
+                    set {depose} to number of gold ingot named "10" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "10" from player's inventory
+                        set {prix} to {depose} * 10
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    set {depose} to number of gold ingot named "20" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "20" from player's inventory
+                        set {prix} to {depose} * 20
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    set {depose} to number of gold ingot named "30" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "30" from player's inventory
+                        set {prix} to {depose} * 30
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    set {depose} to number of gold ingot named "40" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "40" from player's inventory
+                        set {prix} to {depose} * 40
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    set {depose} to number of gold ingot named "50" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "50" from player's inventory
+                        set {prix} to {depose} * 50
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    set {depose} to number of gold ingot named "100" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "100" from player's inventory
+                        set {prix} to {depose} * 100
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    set {depose} to number of gold ingot named "500" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "500" from player's inventory
+                        set {prix} to {depose} * 500
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    set {depose} to number of gold ingot named "1000" in player's inventory
+                    if {depose} > 0:
+                        remove {depose} of gold ingot named "1000" from player's inventory
+                        set {prix} to {depose} * 1000
+                        add {prix} to balance of player
+                        add {prix} to {prixtotal}
+                    if {prixtotal} = 0:
+                        send "&c&lErreur &r&c- Vous ne possédez pas déposé de billet sur vous!"
+                    if {prixtotal} > 0:
+                        send "&a&lValidé &r&c- Vous venez bien de déposé %{prixtotal}%€!"
+
+
+
+
+            open last created gui to player
+
+
+
+
+        make gui 13 with Player Head named "&bBienvenue sur votre compte en banque" with lore "&aVotre compte dispose de &e%player's money%"
+        make gui 15 with gold ingot named "&6 &4Retirer de l'argent &6€" with lore " ":
+            create a gui with virtual chest inventory with 3 rows named "&6ATM | &4Retirer de l'argent &6€":
+                make gui 0 with gold ingot named "&aRetirer 10€" with lore "&7Cliquer pour retirer 10€":
+                    if player's balance < 10:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 10:
+                        give 1 gold ingot named "10" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 10€!" to player
+                        remove 10 from balance of player
+                make gui 2 with gold ingot named "&aRetirer 20€" with lore "&7Cliquer pour retirer 20€":
+                    if player's balance < 20:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 20:
+                        give 1 gold ingot named "20" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 20€!" to player
+                        remove 20 from balance of player
+                make gui 4 with gold ingot named "&aRetirer 30€" with lore "&7Cliquer pour retirer 30€":
+                    if player's balance < 30:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 30:
+                        give 1 gold ingot named "30" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 30€!" to player
+                        remove 30 from balance of player
+                make gui 6 with gold ingot named "&aRetirer 40€" with lore "&7Cliquer pour retirer 40€":
+                    if player's balance < 40:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 40:
+                        give 1 gold ingot named "40" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 40€!" to player
+                        remove 40 from balance of player
+                make gui 8 with gold ingot named "&aRetirer 50€" with lore "&7Cliquer pour retirer 50€":
+                    if player's balance < 50:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 50:
+                        give 1 gold ingot named "50" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 50€!" to player
+                        remove 50 from balance of player
+                make gui 11 with gold ingot named "&aRetirer 100€" with lore "&7Cliquer pour retirer 100€":
+                    if player's balance < 100:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 100:
+                        give 1 gold ingot named "100" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 10€!" to player
+                        remove 100 from balance of player
+                make gui 13 with gold ingot named "&aRetirer 500€" with lore "&7Cliquer pour retirer 500€":
+                    if player's balance < 500:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 500:
+                        give 1 gold ingot named "500" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 500€!" to player
+                        remove 500 from balance of player
+                make gui 15 with gold ingot named "&aRetirer 1000€" with lore "&7Cliquer pour retirer 1000€":
+                    if player's balance < 1000:
+                        send "&c&lErreur &r&c- Vous ne pouvez pas retirer de l'argent que vous ne possédez pas!" to player
+                        stop
+                    if player's balance > 1000:
+                        give 1 gold ingot named "1000" to player
+                        send "&a&lValidé &r&c- Vous venez bien de retirer 1000€!" to player
+                        remove 1000 from balance of player
+            open last created gui to player
+            
+    open last created gui to player

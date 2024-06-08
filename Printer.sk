@@ -1,0 +1,137 @@
+on right click on sand:
+	set {locablocklocal} to location of clicked block
+	if {toucheone.%{locablocklocal}%} is not 1:
+		set {encrebase.%{locablocklocal}%} to 5
+		set {brakelvl.%{locablocklocal}%} to 100
+		set {depose.%{locablocklocal}%} to 0
+		set {argentbase.%{locablocklocal}%} to 0
+		set {toucheone.%{locablocklocal}%} to 1
+		set {lance.%{locablocklocal}%} to 0
+	set {locaprinterx} to X-location of clicked block
+	set {locaprintery} to Y-location of clicked block
+	set {locaprinterz} to Z-location of clicked block
+	cancel event
+	if {brakelvl.%{locablocklocal}%} < 0:
+		set {toucheone.%{locablocklocal}%} to 0
+		remove {locablocklocal} from {printeronlist::*}
+		make console execute command "/fill %{locaprinterx}% %{locaprintery}% %{locaprinterz}% %{locaprinterx}% %{locaprintery}% %{locaprinterz}% air"
+	else:
+		create a gui with virtual chest inventory with 3 rows named "&2Printer":
+			make gui 0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 14, 16, 17, 18, 19, 20, 21, 23, 24 and 25  with black stained glass pane named "&f"
+
+
+			make gui 11 with black dye named "&aRemettre de l'encre" with lore "&aEncre dans le Printer : %{colorlocal%{locablocklocal}%}%%{encrebase.%{locablocklocal}%}% %%":
+				if {encrebase.%{locablocklocal}%} < 100:
+					set {depose.%{locablocklocal}%} to number of black dye in player's inventory
+					if {depose.%{locablocklocal}%} > 0:
+						remove 1 black dye from player's inventory
+						add 20 to {encrebase.%{locablocklocal}%}
+						if {encrebase.%{locablocklocal}%} < 100:
+							message "&a La durabilité du Printer est maintenant de %{encrebase.%{locablocklocal}%}% %%"
+							set {depose.%{locablocklocal}%} to 0
+							close player's inventory					
+						else:
+							set {encrebase.%{locablocklocal}%} to 100
+							set {depose.%{locablocklocal}%} to 0
+							message "&a La durabilité du Printer est maintenant de %{encrebase.%{locablocklocal}%}%%%"
+							close player's inventory	
+
+					else:
+						message "&aVous n'avez pas de matériel pour réparé le printer"
+
+
+				else:
+					message "&aLe printer ne peut pas être plus réparé"
+
+
+
+			make gui 4 with light green wool named "&2Lancé le Printer":
+				if {lance.%{locablocklocal}%} is 0:
+					set {lance.%{locablocklocal}%} to 1
+					add {locablocklocal} to {printeronlist::*}
+					message "&aPrinter lancé"
+				else:
+					message "&cLe printer est déja lancé"
+
+				
+			make gui 13 with diamond named "&aArgent dans le printer : %{argentbase.%{locablocklocal}%}%€"
+				
+			make gui 15 with gold ingot named "&aRetiré l'argent de le printer"
+
+
+
+
+			if {encrebase.%{locablocklocal}%} is 100:
+				set {colorlocal%{locablocklocal}%} to "&a"
+			if {encrebase.%{locablocklocal}%} < 81:
+				set {colorlocal%{locablocklocal}%} to "&a"
+			if {encrebase.%{locablocklocal}%} < 61:
+				set {colorlocal%{locablocklocal}%} to "&6"
+			if {encrebase.%{locablocklocal}%} < 41:
+				set {colorlocal%{locablocklocal}%} to "&c"
+			if {encrebase.%{locablocklocal}%} < 21:
+				set {colorlocal%{locablocklocal}%} to "&4"
+
+
+			if {brakelvl.%{locablocklocal}%} is 100:
+				set {colorloca%{locablocklocal}%} to "&a"
+			if {brakelvl.%{locablocklocal}%} < 81:
+				set {colorloca%{locablocklocal}%} to "&a"
+			if {brakelvl.%{locablocklocal}%} < 61:
+				set {colorloca%{locablocklocal}%} to "&6"
+			if {brakelvl.%{locablocklocal}%} < 41:
+				set {colorloca%{locablocklocal}%} to "&c"
+			if {brakelvl.%{locablocklocal}%} < 21:
+				set {colorloca%{locablocklocal}%} to "&4"
+			
+
+			make gui 22 with redstone named "&aReparé le printer" with lore "&aDurabilité du printer : %{colorloca%{locablocklocal}%}%%{brakelvl.%{locablocklocal}%}% %%":
+				if {brakelvl.%{locablocklocal}%} < 100:
+					set {depose.%{locablocklocal}%} to number of redstone in player's inventory
+					if {depose.%{locablocklocal}%} > 0:
+						remove 1 redstone from player's inventory
+						add 20 to {brakelvl.%{locablocklocal}%}
+						if {brakelvl.%{locablocklocal}%} < 100:
+							message "&a La durabilité du Printer est maintenant de %{brakelvl.%{locablocklocal}%}% %%"
+							set {depose.%{locablocklocal}%} to 0
+							close player's inventory					
+						else:
+							set {brakelvl.%{locablocklocal}%} to 100
+							set {depose.%{locablocklocal}%} to 0
+							message "&a La durabilité du Printer est maintenant de %{brakelvl.%{locablocklocal}%}%%%"
+							close player's inventory	
+
+					else:
+						message "&aVous n'avez pas de matériel pour réparé le printer"
+
+
+				else:
+					message "&aLe printer ne peut pas être plus réparé"
+			
+
+
+			make gui 26 with tnt named "&4Détruire le printer" with lore "&cAttention le printer est suprimer totalement et cette action est irreversible":
+				create a gui with virtual chest inventory with 3 rows named "&2Printer":
+					make gui 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11 ,15 ,22 ,26 ,12, 14, 16, 17, 18, 19, 20, 21, 23, 24 and 25  with black stained glass pane named "&f"
+					make gui 13 with tnt named "&4Détruire le printer" with lore "&cAttention le printer est suprimer totalement et cette action est irreversible":
+						close player's inventory
+						set {toucheone.%{locablocklocal}%} to 0
+						remove {locablocklocal} from {printeronlist::*}
+						make console execute command "/fill %{locaprinterx}% %{locaprintery}% %{locaprinterz}% %{locaprinterx}% %{locaprintery}% %{locaprinterz}% air"
+					open last created gui to player
+
+
+
+
+		open last created gui to player
+
+every 10 second:
+	loop {printeronlist::*}:
+		set {msg} to loop-value
+		add random integer between 0 and 5 to {argentbase.%{msg}%}
+
+every 60 second:
+	loop {printeronlist::*}:
+		set {msg} to loop-value
+		remove random integer between 0 and 5 from {brakelvl.%{msg}%}
+	

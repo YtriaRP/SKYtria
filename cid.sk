@@ -1,0 +1,577 @@
+on first join:
+	apply potion of slowness of tier 100 to the player for 15000 seconds
+	apply potion of blindness of tier 100 to the player for 15000 seconds
+	set {persoset::%uuid of player%} to 0
+	set {fait::%uuid of player%} to 0
+	set {faitage::%uuid of player%} to 0
+	set {faitsexe::%uuid of player%} to 0
+	set {nom::%uuid of player%} to ""
+	set {prenom::%uuid of player%} to ""
+	set {age::%uuid of player%} to ""
+	set {sexe::%uuid of player%} to ""
+	set {metier::%uuid of player%} to "Civil"
+	set {grade::%uuid of player%} to ""
+	set {wipe::%uuid of player%} to 0
+	set {gangsupr.%player%} to 0
+	set {gang.%player%} to 0
+	set {gangpatron::%uuid of player%} to "Non"
+	set {validitepermis::%uuid of player%} to "&cInvalide"
+	set {pointpermis::%uuid of player%} to "&e0"
+	set {camionpermis::%uuid of player%} to "&c✗"
+	set {motopermis::%uuid of player%} to "&c✗" 
+	set {voiturepermis::%uuid of player%} to "&c✗"
+	set {obtentionpermisvoiture::%uuid of player%} to "&cXX/XX/XX XX:XX"
+	set {obtentionpermismoto::%uuid of player%} to "&cXX/XX/XX XX:XX"
+	set {obtentionpermiscamion::%uuid of player%} to "&cXX/XX/XX XX:XX"
+	set {chgive::%uuid of player%} to "&e Identifiant : &a// &e| Nom Prénom : &a// "
+	set {validitech::%uuid of player%} to "&cInvalide"
+	set {territoirech::%uuid of player%} to "&cAucun"
+	set {obtentionch::%uuid of player%} to "&cXX/XX/XX XX:XX"
+	set {validiteppa::%uuid of player%} to "&cInvalide"
+	set {categorieppa::%uuid of player%} to "&cAucun"
+	set {obtentionppa::%uuid of player%} to "&cXX/XX/XX XX:XX"
+	set {ppagive::%uuid of player%} to "&e Identifiant : &a// &e| Nom Prénom : &a// " 
+
+
+command /persoset:
+	trigger:
+		if {persoset::%uuid of player%} is 0:
+			if {fait::%uuid of player%} is 1:
+				if {faitsexe::%uuid of player%} is 1:
+					if {faitage::%uuid of player%} is 1:
+						set {persoset::%uuid of player%} to 1
+						execute console command "effect %player% clear"
+						send "&aTu as confirmé ton personnage !"
+					else:
+						send "&e[&cERREUR&e] &cTu dois avoir terminé ton personnage !"
+				else:
+					send "&e[&cERREUR&e] &cTu dois avoir terminé ton personnage !"
+			else:
+				send "&e[&cERREUR&e] &cTu dois avoir terminé ton personnage !"
+		else:
+			send "&e[&cERREUR&e] &cTu à déjà terminé ton personnage !"
+
+command /modo:
+	permission: staff.use
+	trigger:
+		make player execute command "/satff:staff"
+command /moderation:
+	permission: staff.use
+	trigger:
+		make player execute command "/satff:staff"
+
+
+
+command /wipe [<player>]:
+	permission: admin.use
+	trigger:
+		if arg 1 is set:
+			if {wipe::%uuid of arg 1%} is 1:
+				apply potion of slowness of tier 100 to arg 1 for 15000 seconds
+				apply potion of blindness of tier 100 to arg 1 for 15000 seconds
+				set {persoset::%uuid of arg 1%} to 0
+				set {fait::%uuid of arg 1%} to 0
+				set {faitage::%uuid of arg 1%} to 0
+				set {faitsexe::%uuid of arg 1%} to 0
+				set {nom::%uuid of arg 1%} to ""
+				set {prenom::%uuid of arg 1%} to ""
+				set {age::%uuid of arg 1%} to ""
+				set {sexe::%uuid of arg 1%} to ""
+				set {metier::%uuid of arg 1%} to "Civil"
+				set {grade::%uuid of arg 1%} to ""
+				set {wipe::%uuid of arg 1%} to 0
+				set {gangsupr.%arg 1%} to 0
+				if {gangpatron::%uuid of arg 1%} is "Oui":
+					set {gangpatron::%uuid of arg 1%} to "Non"
+					make player execute command "/gang supr %{gang.%arg 1%}%"
+					make player execute command "/gang supr %{gang.%arg 1%}%"
+				set {gang.%arg 1%} to 0
+				set {gangpatron::%uuid of arg 1%} to "Non"
+				set {gangpatron::%uuid of arg 1%} to "Non"
+				set {validitepermis::%uuid of arg 1%} to "&cInvalide"
+				set {pointpermis::%uuid of arg 1%} to "&e0"
+				set {camionpermis::%uuid of arg 1%} to "&c✗"
+				set {motopermis::%uuid of arg 1%} to "&c✗" 
+				set {voiturepermis::%uuid of arg 1%} to "&c✗"
+				set {obtentionpermisvoiture::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+				set {obtentionpermismoto::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+				set {obtentionpermiscamion::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+				set {validiteppa::%uuid of arg 1%} to "&cInvalide"
+				set {categorieppa::%uuid of arg 1%} to "&cAucun"
+				set {obtentionppa::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+				set {ppagive::%uuid of arg 1%} to "&e Identifiant : &a// &e| Nom Prénom : &a// " 
+				set {chgive::%uuid of arg 1%} to "&e Identifiant : &a// &e| Nom Prénom : &a// "
+				set {validitech::%uuid of arg 1%} to "&cInvalide"
+				set {territoirech::%uuid of arg 1%} to "&cAucun"
+				set {obtentionch::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+				message "&cLe joueur a été wipe" to player
+				message "&cVous venez d'être WIPE, merci de definir un nouveau nom, prénom, âge, sexe rp " to arg 1
+				stop trigger
+			if {wipe::%uuid of arg 1%} is 0:
+				message "&cMerci de remettre la commande pour confirmer le WIPE"
+				set {wipe::%uuid of arg 1%} to 1
+		else:
+			message "Vous devez mettre le pseudo du joueur a WIPE"
+
+command /nomrp [<text>] [<text>]:
+	trigger:
+		if {fait::%uuid of player%} is 1:
+			message "&c Vous avez déja choisi un nom et prénom rp !"
+			stop trigger 
+		if arg 1 is set:
+			if arg 2 is set:
+				message "Votre Nom et votre Prénom rp est &e%arg 1% %arg 2%" to player
+				set {nom::%uuid of player%} to arg 2
+				set {prenom::%uuid of player%} to arg 1
+				set {fait::%uuid of player%} to 1
+			else:
+				message "&cVous devez mettre votre prénom et nom rp : /nomrp <prénom> <nom>"
+		else:
+			message "&cVous devez mettre votre prénom et nom rp : /nomrp <prénom> <nom> "
+command /agerp [<int>]:
+	trigger:
+		if {faitage::%uuid of player%} is 1:
+			message "&c Vous avez déja choisi un âge rp !"
+			stop trigger 
+		if arg 1 is set:
+			message "Votre Âge rp est &e%arg 1%" to player
+			set {age::%uuid of player%} to arg 1
+			set {faitage::%uuid of player%} to 1
+		else:
+			message "&cVous devez mettre votre age rp : /agerp <age>"
+command /sexerp [<text>]:
+	trigger:
+		if {faitsexe::%uuid of player%} is 1:
+			message "&c Vous avez déja choisi un sexe rp !"
+			stop trigger 
+		if arg 1 is set:
+			message "Votre sexe rp est &e%arg 1%" to player
+			set {sexe::%uuid of player%} to arg 1
+			set {faitsexe::%uuid of player%} to 1
+		else:
+			message "&cVous devez mettre votre sexe rp : /sexerp <sexe>"
+command /infoadminrp <offline player>:
+	permission: admin.use
+	trigger:
+		message "&c---------Info Admin Rp de %arg 1%----------"
+		message "Nom : &e%{nom::%uuid of arg 1%}%" to player
+		message "Prenom : &e%{prenom::%uuid of arg 1%}%" to player
+		message "Âge : &e%{age::%uuid of arg 1%}%" to player
+		message "Sexe : &e%{sexe::%uuid of arg 1%}%" to player
+		message "Métier : &e%{metier.%arg 1%}%" to player
+		message "Grade : &e%{grade.%arg 1%}%" to player
+		message "Permis : &e Voiture : %{voiturepermis::%uuid of arg 1%}% &e| Moto : %{motopermis::%uuid of arg 1%}% &e| Camion : %{camionpermis::%uuid of arg 1%}%"
+		message "PPA : &e%{categorieppa::%uuid of player%}%"
+		if {gang.%arg 1%} is 0:
+			message "Gang : &eAucun"
+		else:
+			message "Gang : &e%{gang.%arg 1%}%"
+		message "Gang Patron : &e%{gangpatron::%uuid of arg 1%}%"
+
+on rightclick with arrow:
+	if target is a player:
+		send "&c---------Info Admin Rp de %target player%----------" to player
+		send "Nom : &e%{nom::%uuid of target player%}%" to player
+		send "Prenom : &e%{prenom::%uuid of target player%}%" to player
+		send "Âge : &e%{age::%uuid of target player%}%" to player
+		send "Sexe : &e%{sexe::%uuid of target player%}%" to player
+		send "Métier : &e%{metier.%target player%}%" to player
+		send "Grade : &e%{grade.%target player%}%" to player
+		send "Permis : &e Voiture : %{voiturepermis::%uuid of target player%}% &e| Moto : %{motopermis::%uuid of target player%}% &e| Camion : %{camionpermis::%uuid of target player%}%" to player
+		send "PPA : &e%{categorieppa::%uuid of target player%}%" to player
+		if {gang.%target player%} is 0:
+			send "Gang : &eAucun" to player
+		else:
+			send "Gang : &e%{gang.%target player%}%" to player
+		send "Gang Patron : &e%{gangpatron::%uuid of target player%}%" to player
+
+
+command /setwipe <player>:
+	trigger:
+		set {wipe::%uuid of arg 1%} to 0
+
+aliases:
+	cartedindentite = stick
+on rightclick with cartedindentite:
+	if target is a player:
+		send "" to target
+		send "&b|----------Carte d'identité----------|" to target
+		send "" to target
+		send "&bIdentifiant (&cHRP&b) : &e%player%" to target
+		send "" to target
+		send "&bPrénom - Nom  : &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}%" to target
+		send "&bDate de naissance : &e%{age::%uuid of player%}%" to target
+		send "&bSexe : &e%{sexe::%uuid of player%}%" to target
+		send "" to target
+		send "&b|----------Carte d'identité----------|" to target
+		send "" to target
+		send "&a Vous avez correctement donné votre carte d'identité !" to player
+
+aliases:
+	pdc = grass
+on rightclick with pdc:
+	if target is a player:
+		send "" to target
+		send "&d|----------Permis de conduire----------|" to target
+		send "" to target
+		send "&dIdentifiant (&cHRP&d) : &e%player%" to target
+		send "" to target
+		send "&dValididté  : &e%{validitepermis::%uuid of player%}%" to target
+		send "&dPrénom : &e%{prenom::%uuid of player%}%" to target
+		send "&dNom : &e%{nom::%uuid of player%}%" to target
+		send "&dDate de naissance : &e%{age::%uuid of player%}%" to target
+		send "&dPoint restant : &e%{pointpermis::%uuid of player%}%" to target
+		send "&dPermis Voiture : &e%{voiturepermis::%uuid of player%}%" to target
+		send "&d ↪ Délivré le : &e%{obtentionpermisvoiture::%uuid of player%}%" to target
+		send "" to target
+		send "&dPermis Moto : &e%{motopermis::%uuid of player%}%" to target
+		send "&d ↪ Délivré le : &e%{obtentionpermismoto::%uuid of player%}%" to target
+		send "" to target
+		send "&dPermis Camion : &e%{camionpermis::%uuid of player%}%" to target
+		send "&d ↪ Délivré le : &e%{obtentionpermiscamion::%uuid of player%}%" to target
+		send "" to target
+		send "&d|----------Permis de conduire----------|" to target
+		send "" to target
+		send "&a Vous avez correctement donné votre permis de conduire !" to player
+
+
+aliases:
+	ppa = apple
+on rightclick with ppa:
+	if target is a player:
+		send "" to target
+		send "&9|----------Permis Port d'Arme----------|" to target
+		send "" to target
+		send "&9Identifiant (&cHRP&9) : &e%player%" to target
+		send "" to target
+		send "&9Validité : &e%{validiteppa::%uuid of player%}%" to target
+		send "&9Prénom - Nom  : &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}%" to target
+		send "&9Date d'obtention : &e%{obtentionppa::%uuid of player%}%" to target
+		send "&9Catégorie : &e%{categorieppa::%uuid of player%}%" to target
+		send "&9Donné par : %{ppagive::%uuid of player%}%" to target
+		send "" to target
+		send "&9|----------Permis Port d'Arme----------|" to target
+		send "" to target
+		send "&a Vous avez correctement donné votre permis port d'arme!" to player
+
+
+aliases:
+	pdch = bread
+on rightclick with pdch:
+	if target is a player:
+		send "" to target
+		send "&2|----------Permis de Chasse----------|" to target
+		send "" to target
+		send "&2Identifiant (&cHRP&2) : &e%player%" to target
+		send "" to target
+		send "&2Validité : &e%{validitech::%uuid of player%}%" to target
+		send "&2Prénom - Nom  : &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}%" to target
+		send "&2Date d'obtention : &e%{obtentionch::%uuid of player%}%" to target
+		send "&2Territoire : &e%{territoirech::%uuid of player%}%" to target
+		send "&2Donné par : %{chgive::%uuid of player%}%" to target
+		send "" to target
+		send "&2|----------Permis de Chasse----------|" to target
+		send "" to target
+		send "&a Vous avez correctement donné votre permis de chasse !" to player
+		stop
+
+command /identite:
+	trigger:
+		send ""
+		send "&b|----------Carte d'identité----------|"
+		send ""
+		send "&bIdentifiant (&cHRP&b) : &e%player%"
+		send ""
+		send "&bPrénom - Nom  : &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}%"
+		send "&bDate de naissance : &e%{age::%uuid of player%}%"
+		send "&bSexe : &e%{sexe::%uuid of player%}%"
+		send ""
+		send "&b|----------Carte d'identité----------|"
+		send ""
+
+command /permis:
+	trigger:
+		send ""
+		send "&d|----------Permis de conduire----------|"
+		send ""
+		send "&dIdentifiant (&cHRP&d) : &e%player%"
+		send ""
+		send "&dValididté  : &e%{validitepermis::%uuid of player%}%"
+		send "&dPrénom : &e%{prenom::%uuid of player%}%"
+		send "&dNom : &e%{nom::%uuid of player%}%"
+		send "&dDate de naissance : &e%{age::%uuid of player%}%"
+		send "&dPoint restant : &e%{pointpermis::%uuid of player%}%"
+		send ""
+		send "&dPermis Voiture : &e%{voiturepermis::%uuid of player%}%"
+		send "&d ↪ Délivré le : &e%{obtentionpermisvoiture::%uuid of player%}%"
+		send ""
+		send "&dPermis Moto : &e%{motopermis::%uuid of player%}%"
+		send "&d ↪ Délivré le : &e%{obtentionpermismoto::%uuid of player%}%"
+		send ""
+		send "&dPermis Camion : &e%{camionpermis::%uuid of player%}%"
+		send "&d ↪ Délivré le : &e%{obtentionpermiscamion::%uuid of player%}%"
+		send ""
+		send "&d|----------Permis de conduire----------|"
+		send ""
+
+command /ppa:
+	trigger:
+		send ""
+		send "&9|----------Permis Port d'Arme----------|"
+		send ""
+		send "&9Identifiant (&cHRP&9) : &e%player%"
+		send ""
+		send "&9Validité : &e%{validiteppa::%uuid of player%}%"
+		send "&9Prénom - Nom  : &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}%"
+		send "&9Date d'obtention : &e%{obtentionppa::%uuid of player%}%"
+		send "&9Catégorie : &e%{categorieppa::%uuid of player%}%"
+		send "&9Donné par : %{ppagive::%uuid of player%}%"
+		send ""
+		send "&9|----------Permis Port d'Arme----------|"
+		send ""
+
+command /pdch:
+	trigger:
+		send ""
+		send "&2|----------Permis de Chasse----------|"
+		send ""
+		send "&2Identifiant (&cHRP&2) : &e%player%"
+		send ""
+		send "&2Validité : &e%{validitech::%uuid of player%}%"
+		send "&2Prénom - Nom  : &e%{prenom::%uuid of player%}% %{nom::%uuid of player%}%"
+		send "&2Date d'obtention : &e%{obtentionch::%uuid of player%}%"
+		send "&2Territoire : &e%{territoirech::%uuid of player%}%"
+		send "&2Donné par : %{chgive::%uuid of player%}%"
+		send ""
+		send "&2|----------Permis de Chasse----------|"
+		send ""
+
+
+command /pdchobtention <player> <text>:
+	permission: prefecture.ch
+	trigger:
+		if arg 2 is "t1":
+			set {obtentionch::%uuid of arg 1%} to "%now%"
+			set {validitech::%uuid of arg 1%} to "&aValide"
+			set {territoirech::%uuid of player%} to "&eTerritoire 1"
+			set {chgive::%uuid of arg 1%} to "&e Identifiant : &a%player% &e| Nom Prénom : &a%{prenom::%uuid of player%}% %{nom::%uuid of player%}%"
+			send "&7[&6Préfecture&7] &aTu as reçu ton permis de chasse pour le territoire %{territoirech::%uuid of player%}% !" to arg 1
+			send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu son permis de chasse pour le territoire %{territoirech::%uuid of player%}% !"
+		if arg 2 is "t2":
+			set {obtentionch::%uuid of arg 1%} to "%now%"
+			set {validitech::%uuid of arg 1%} to "&aValide"
+			set {territoirech::%uuid of player%} to "&eTerritoire 2"
+			set {chgive::%uuid of arg 1%} to "&e Identifiant : &a%player% &e| Nom Prénom : &a%{prenom::%uuid of player%}% %{nom::%uuid of player%}%"
+			send "&7[&6Préfecture&7] &aTu as reçu ton permis de chasse pour le territoire %{territoirech::%uuid of player%}% !" to arg 1
+			send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu son permis de chasse pour le territoire %{territoirech::%uuid of player%}% !"
+		if arg 2 is "t3":
+			set {obtentionch::%uuid of arg 1%} to "%now%"
+			set {validitech::%uuid of arg 1%} to "&aValide"
+			set {territoirech::%uuid of player%} to "&eTerritoire 3"
+			set {chgive::%uuid of arg 1%} to "&e Identifiant : &a%player% &e| Nom Prénom : &a%{prenom::%uuid of player%}% %{nom::%uuid of player%}%"
+			send "&7[&6Préfecture&7] &aTu as reçu ton permis de chasse pour le territoire %{territoirech::%uuid of player%}% !" to arg 1
+			send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu son permis de chasse pour le territoire %{territoirech::%uuid of player%}% !"
+
+
+
+
+command /ppaobtention <player> <text>:
+	permission: prefecture.ppa
+	trigger:
+		if arg 2 is "A" or "a":
+			set {obtentionppa::%uuid of arg 1%} to "%now%"
+			set {validiteppa::%uuid of arg 1%} to "&aValide"
+			set {categorieppa::%uuid of arg 1%} to "&aA"
+			set {ppagive::%uuid of arg 1%} to "&e Identifiant : &a%player% &e| Nom Prénom : &a%{prenom::%uuid of player%}% %{nom::%uuid of player%}% "
+			send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie A !" to arg 1
+			send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie A !"
+		if arg 2 is "B" or "b":
+			set {obtentionppa::%uuid of arg 1%} to "%now%"
+			set {validiteppa::%uuid of arg 1%} to "&aValide"
+			set {categorieppa::%uuid of arg 1%} to "&aB"
+			send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie B !" to arg 1
+			send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie B !"
+		if arg 2 is "C" or "c":
+			set {obtentionppa::%uuid of arg 1%} to "%now%"
+			set {validiteppa::%uuid of arg 1%} to "&aValide"
+			set {categorieppa::%uuid of arg 1%} to "&aC"
+			send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie C !" to arg 1
+			send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie C !"
+		if arg 2 is "D" or "d":
+			set {obtentionppa::%uuid of arg 1%} to "%now%"
+			set {validiteppa::%uuid of arg 1%} to "&aValide"
+			set {categorieppa::%uuid of arg 1%} to "&aD"
+			send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie D !" to arg 1
+			send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie D !"
+		else:
+			send "&7[&6Préfecture&7] &c''%arg 2%'' n'est pas une lettre valide ! (A, B, C et D)"
+
+command /pdchfdl <player>:
+	permission: fdl.pdch
+	trigger:
+		set {validiteppa::%uuid of arg 1%} to "&cInvalide"
+		set {categorieppa::%uuid of arg 1%} to "&cAucun"
+		set {obtentionppa::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+		set {ppagive::%uuid of arg 1%} to "&e Identifiant : &a// &e| Nom Prénom : &a// " 
+		send "&7[&6Préfecture&7] &aVous avez retirer le permis de chasse de &e%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}%"
+		send "&7[&6Préfecture&7] &cVotre permis de chasse à été retirer !" to arg 1
+
+
+command /ppafdl <player> [<text>] [<text>]:
+	permission: fdl.ppa
+	trigger:
+		if arg 2 is "retirer":
+			set {validiteppa::%uuid of arg 1%} to "&cInvalide"
+			set {categorieppa::%uuid of arg 1%} to "&cAucun"
+			set {obtentionppa::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+			set {ppagive::%uuid of arg 1%} to "&e Identifiant : &a// &e| Nom Prénom : &a// " 
+			send "&7[&6Préfecture&7] &aVous avez retirer le permis port d'arme de &e%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}%"
+			send "&7[&6Préfecture&7] &cVotre permis port d'arme à été retirer" to arg 1
+		if arg 2 is "set":
+			if arg 3 is "A" or "a":
+				set {obtentionppa::%uuid of arg 1%} to "%now%"
+				set {validiteppa::%uuid of arg 1%} to "&aValide"
+				set {categorieppa::%uuid of arg 1%} to "&aA"
+				set {ppagive::%uuid of arg 1%} to "&e Identifiant : &a%player% &e| Nom Prénom : &a%{prenom::%uuid of player%}% %{nom::%uuid of player%}% "
+				send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie A !" to arg 1
+				send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie A !"
+			if arg 3 is "B" or "b":
+				set {obtentionppa::%uuid of arg 1%} to "%now%"
+				set {validiteppa::%uuid of arg 1%} to "&aValide"
+				set {categorieppa::%uuid of arg 1%} to "&aB"
+				send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie B !" to arg 1
+				send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie B !"
+			if arg 3 is "C" or "c":
+				set {obtentionppa::%uuid of arg 1%} to "%now%"
+				set {validiteppa::%uuid of arg 1%} to "&aValide"
+				set {categorieppa::%uuid of arg 1%} to "&aC"
+				send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie C !" to arg 1
+				send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie C !"
+			if arg 3 is "D" or "d":
+				set {obtentionppa::%uuid of arg 1%} to "%now%"
+				set {validiteppa::%uuid of arg 1%} to "&aValide"
+				set {categorieppa::%uuid of arg 1%} to "&aD"
+				send "&7[&6Préfecture&7] &aTu as reçu un ppa de categorie D !" to arg 1
+				send "&7[&6Préfecture&7] &a%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}% a reçu un ppa de categorie D !"
+			else:
+				send "&7[&6Préfecture&7] &c''%arg 3%'' n'est pas une lettre valide ! (A, B, C et D)"
+
+
+command /permisobtention <player> <text>:
+	permission: ecoleconduite.use
+	trigger:
+		if arg 2 is "voiture" or "Voiture":
+			set {obtentionpermis::%uuid of arg 1%} to "%now%"
+			set {obtentionpermisvoiture::%uuid of arg 1%} to "%now%"
+			set {validitepermis::%uuid of arg 1%} to "&aValide"
+			set {pointpermis::%uuid of arg 1%} to 12
+			set {voiturepermis::%uuid of arg 1%} to "&a✔"
+			send "[&3Auto-Ecole&f] &aVous avez doné le permis voiture à &e%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}%"
+			send "[&3Auto-Ecole&f] &aVous avez reçu votre permis &2voiture &a!" to arg 1
+		if arg 2 is "moto" or "Moto":
+			set {obtentionpermis::%uuid of arg 1%} to "%now%"
+			set {obtentionpermismoto::%uuid of arg 1%} to "%now%"
+			set {validitepermis::%uuid of arg 1%} to "&aValide"
+			set {pointpermis::%uuid of arg 1%} to 12
+			set {motopermis::%uuid of arg 1%} to "&a✔"
+			send "[&3Auto-Ecole&f] &aVous avez doné le permis moto à &e%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}%"
+			send "[&3Auto-Ecole&f] &aVous avez reçu votre permis &2moto &a!" to arg 1
+		if arg 2 is "camion" or "Camion":
+			set {obtentionpermis::%uuid of arg 1%} to "%now%"
+			set {obtentionpermiscamion::%uuid of arg 1%} to "%now%"
+			set {validitepermis::%uuid of arg 1%} to "&aValide"
+			set {pointpermis::%uuid of arg 1%} to 12
+			set {camionpermis::%uuid of arg 1%} to "&a✔"
+			send "[&3Auto-Ecole&f] &aVous avez donné le permis camion à &e%{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}%"
+			send "[&3Auto-Ecole&f] &aVous avez reçu votre permis &2camion &a!" to arg 1
+		else:
+			send "[&3Auto-Ecole&f] &c%arg 2% n'est pas un mot valide ! (voiture, moto, camion)"
+
+
+command /pointobtention <player> <number>:
+	permission: ecoleconduite.use
+	trigger:
+		if arg 2 > 12:
+			message "&a[&bSécurité Routière&a] &cTu ne peut pas ajouter plus de 12 point, ces point vont être automatiquement reset a 12 point"
+			set {pointpermis::%uuid of arg 1%} to 12
+		if arg 2 < 0:
+			message "&a[&bSécurité Routière&a] &cTu ne peut pas ajouter des point negatif"
+		if arg 2 is 0:
+			message "&a[&bSécurité Routière&a] &cTu ne peut pas ajouter 0 point"
+		if {pointpermis::%uuid of arg 1%} is 12:
+			message "&a[&bSécurité Routière&a] &cCe joueur a déja tout ces points"
+			set {pointpermis::%uuid of arg 1%} to 12
+		else:
+			set {pointpermis::%uuid of arg 1%} to {pointpermis::%uuid of arg 1%} + arg 2
+			set {validitepermis::%uuid of arg 1%} to "&aValide"
+			send "[&bSécurité Routière&a] &aVous avez ajoutez des point à %{prenom::%uuid of arg 1%}% %{nom::%uuid of arg 1%}%"
+			if {pointpermis::%uuid of arg 1%} > 12:
+				set {pointpermis::%uuid of arg 1%} to 12
+
+
+
+
+
+command /pointfdl <player> <number>:
+	permission: fdl.permis
+	trigger:
+		if arg 2 > 12:
+			message "&cTu ne peut pas enlever plus de 12 point"
+		if arg 2 < 0:
+			message "&cTu ne peut pas enlever moin de 0 point"
+		if arg 2 = 0:
+			message "&cTu ne peut pas enlever 0 point"
+		else:
+			set {pointpermis::%uuid of arg 1%} to {pointpermis::%uuid of arg 1%} - arg 2
+			message "&cCe joueur a perdu %arg 2% point il a maintenant %{pointpermis::%uuid of arg 1%}% point"
+			message "&cTu as perdu %arg 2% point tu as maintenant plus que %{pointpermis::%uuid of arg 1%}% point" to arg 1
+		if {pointpermis::%uuid of arg 1%} <= 0:
+			message "&a[&bSécurité Routière&a] &aCe joueur a plus de permis a cause de son manque de point "
+			message "&a[&bSécurité Routière&a] &cTu as perdu le permis a cause de ton manque de point" to arg 1
+			set {validitepermis::%uuid of arg 1%} to "&cInvalide"
+			set {pointpermis::%uuid of arg 1%} to 0
+			set {voiturepermis::%uuid of arg 1%} to "&c✗"
+			set {motopermis::%uuid of arg 1%} to "&c✗"
+			set {camionpermis::%uuid of arg 1%} to "&c✗"
+			set {obtentionpermis::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+			set {obtentionpermismoto::%uuid of arg 1%} to "&eXX/XX/XX XX:XX"
+			set {obtentionpermisvoiture::%uuid of arg 1%} to "&eXX/XX/XX XX:XX"
+			set {obtentionpermiscamion::%uuid of arg 1%} to "&eXX/XX/XX XX:XX"
+
+
+
+command /permisfdl <player> <text>:
+	permission: fdl.permis
+	trigger:
+		if arg 2 is "voiture":
+			set {validitepermis::%uuid of arg 1%} to "&cInvalide"
+			set {pointpermis::%uuid of arg 1%} to 0
+			set {voiturepermis::%uuid of arg 1%} to "&c✗"
+			set {obtentionpermis::%uuid of arg 1%} to "&cXX/XX/XX XX:XX"
+			set {obtentionpermisvoiture::%uuid of arg 1%} to "&eXX/XX/XX XX:XX"
+			send "&a[&bSécurité Routière&a] &aVous avez retirer son permis voiture !"
+			send "&a[&bSécurité Routière&a] &cVotre permis voiture à été retiré par les force de l'ordre !" to arg 1
+		
+		if arg 2 is "moto":
+			set {validitepermis::%uuid of arg 1%} to "&cInvalide"
+			set {pointpermis::%uuid of arg 1%} to 0	
+			set {motopermis::%uuid of arg 1%} to "&c✗"
+			set {obtentionpermismoto::%uuid of arg 1%} to "&eXX/XX/XX XX:XX"
+			send "&a[&bSécurité Routière&a] &aVous avez retirer son permis moto !"
+			send "&a[&bSécurité Routière&a] &cVotre permis moto à été retiré par les force de l'ordre !" to arg 1
+
+		if arg 2 is "camion":
+			set {validitepermis::%uuid of arg 1%} to "&cInvalide"
+			set {pointpermis::%uuid of arg 1%} to 0
+			set {camionpermis::%uuid of arg 1%} to "&c✗"
+			set {obtentionpermiscamion::%uuid of arg 1%} to "&eXX/XX/XX XX:XX"
+			send "&a[&bSécurité Routière&a] &aVous avez retirer son permis camion !"
+			send "&a[&bSécurité Routière&a] &cVotre permis camion à été retiré par les force de l'ordre !" to arg 1
+
+command /horloge:
+	permission: admin.use
+	trigger:
+		set {_date} to "%now%"
+		set {_l::*} to {_date} split by " "
+		set {_date} to {_l::1}
+		broadcast "%{_date}%"

@@ -1,0 +1,37 @@
+aliases:
+	permis = 6243
+	cid = 6255
+	police = 5155
+	marteau = 4240
+	cagoule = 5124
+	civil = 5151
+	coke = 6252
+	cambrioleur = 5159
+	billet = 6259
+	ske = 0397:0
+	ppa = 6254
+	perso = 0616
+    
+command /amendegui <player>:
+	permission: fdl.tenue
+	trigger:
+		set {_gui} to a new chest inventory with 2 rows with name "&1Amende"
+		wait 1 tick
+		set slot 0 of {_gui} with permis named "&bDéfaut de permis de conduire" with lore "&a500€" to run player command "/dpc %arg 1%"
+		set slot 1 of {_gui} with permis named "&bExcès de vitesse" with lore "&a200€" to run player command "/ev %arg 1%"
+		set slot 2 of {_gui} with permis named "&bConduite dangeureuse" with lore "&a1500€" to run player command "/cd %arg 1%"
+		set slot 3 of {_gui} with permis named "&bConduite sous emprise de drogue / alcool" with lore "&a2000€" to run player command "/ce %arg 1%"
+		set slot 4 of {_gui} with permis named "&bStationement gênant" with lore "&a200€" to run player command "/sg %arg 1%"
+		set slot 5 of {_gui} with permis named "&bRefus d'obtempéré (Voiture)" with lore "&a5000€" to run player command "/ro %arg 1%"
+		set slot 6 of {_gui} with permis named "&bVole de véhicule" with lore "&a1200€" to run player command "/vv %arg 1%"
+		set slot 15 of {_gui} with police named "&bOutrage" with lore "&a700€" to run player command "/out %arg 1%"
+		set slot 8 of {_gui} with cid named "&bDéfaut de papier d'identité" with lore "&a1000€" to run player command "/dpi %arg 1%"
+		set slot 9 of {_gui} with marteau named "&bEntrave à la justice" with lore "&a7000€" to run player command "/ej %arg 1%"
+		set slot 10 of {_gui} with cagoule named "&bVisage dissimulé" with lore "&a1500€" to run player command "/vd %arg 1%"
+		set slot 11 of {_gui} with civil named "&bMenace verbal sur civil" with lore "&a1500€" to run player command "/mvc %arg 1%"
+		set slot 12 of {_gui} with coke named "&bPossession de stupéfiant (+ de 3)" with lore "&a50€ par unité saisie" to run player command "/ps %arg 1%"
+		set slot 13 of {_gui} with cambrioleur named "&bCambriolage" with lore "&a3000€" to run player command "/camb %arg 1%"
+		set slot 14 of {_gui} with billet named "&bEscroquerie" with lore "&a20000€" to run player command "/esc %arg 1%"
+		set slot 7 of {_gui} with permis named "&bCourse illegal" with lore "&a15000€" to run player command "/ci %arg 1%"
+		set slot 16 of {_gui} with ske named "&bMenace de mort" with lore "&a 15000€" to run player command "/mdm %arg 1%"
+		set slot 17 of {_gui} with ppa named "&bDéfaut de Permis Port d'arme" with lore "&a 4500€" to run player command "/dppa %arg 1%"
